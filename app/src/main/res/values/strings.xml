@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Nozari</string>
+
+
+    <string-array name="languages_array">
+        <item>Zulu</item>
+        <item>isiXhosa</item>
+        <item>Shona</item>
+    </string-array>
+
+    <string name="select_a_language">Select a language</string>
+
+    <string name="take_picture">Take picture</string>
+    <string name="CLASSES">ClASSES</string>
+    <string name="EDIT">EDIT</string>
+    <string name="BOOKS">BOOKS</string>
+    <string name="Save_picture">Are you sure you want to save this picture?</string>
+    <string name="title_activity_login">Nozari</string>
+    <string name="title_activity_books">books</string>
+    <string name="title_activity_ocrcamera">ocrcamera</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_twitter">ocrcamera</string>
+    <string name="title_activity_facebook">ocrcamera</string>
+    <string name="title_activity_google">ocrcamera</string>
+    <string name="Number">"Enter Phone Number</string>
+
+    <string name="title_activity_start_splash">Nozari Start Splash</string>
+
+    <string name="login">    Login</string>
+    <string name="UserName">   UserName</string>
+    <string name="SIGN_IN">SIGN IN</string>
+    <string name="title_activity_new_account">New_Account</string>
+    <string name="You_already_have_an_account">Already have an account?</string>
+
+    <string name="profile_header_string">PROFILE</string>
+    <string name="books_header_string">BOOKS</string>
+    <string name="gallery_header_string">GALLERY</string>
+    <string name="gallery_recent_string">RECENT ACTIVITY</string>
+    <string name="gallery_favourites_string">FAVOURITES</string>
+    <string name="gallery_new_string">NEW</string>
+    <string name="nameText">Thandeka</string>
+    <string name="locationString">Cape Town, RSA</string>
+    <string name="profileBioString">Hi! My name is Thandeka, I’m a creative geek originally from the Zimbabwe. I enjoy Maths, Physics and Bio, but in my spare time I enjoy playing tennis and creating apps.</string>
+    <string name="subjectsString">SUBJECTS</string>
+    <string name="classmatesString">CLASSMATES</string>
+    <string name="mathsString">Maths</string>
+    <string name="physicsString">Physics</string>
+    <string name="xhosaString">Xhosa</string>
+    <string name="itString">IT</string>
+    <string name="englishString">English</string>
+    <string name="bioString">Bio</string>
+    <string name="translation_resource">translation resource</string>
+    <string name="userprompt">Are you sure you want to translate this image?</string>
+
+
+</resources>

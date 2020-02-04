@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "984119307146",
+    "firebase_url": "https://nozariv2.firebaseio.com",
+    "project_id": "nozariv2",
+    "storage_bucket": "nozariv2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984119307146:android:c355d4c276ef7a18173673",
+        "android_client_info": {
+          "package_name": "com.nozariv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984119307146-h4v19tnmu3pgukm7mhl2ktat5n34ipku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nozariv2",
+            "certificate_hash": "40b723f4b60939d1bc09b554840a477549bef7cf"
+          }
+        },
+        {
+          "client_id": "984119307146-jvd1uvmlhopro1jrn47fcau03k3omme5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMioaZipKDPJukWsDlPuQJVhl50rq8o-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984119307146-jvd1uvmlhopro1jrn47fcau03k3omme5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
