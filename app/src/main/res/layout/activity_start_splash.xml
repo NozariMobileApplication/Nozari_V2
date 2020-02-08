@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey">
+    android:background="@color/white">
 
     <!-- Don't worry about the id names I have named the id's with reference to the file name for consistency -->
 
@@ -16,14 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
-        android:src="@drawable/ic_launcher_background"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        android:src="@drawable/nozari_1" />
+        <!--app:srcCompat="@android:drawable/sym_def_app_icon"-->
+
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name of the Application"
+        android:text="Nozari"
         android:textSize="20dp"
         android:textStyle="bold"
         android:gravity="center"
@@ -40,6 +41,8 @@
         android:layout_marginTop="20dp"
         android:indeterminateTint="@color/black"/>
 
+
+<!-- Designed By TextView
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
@@ -53,5 +56,6 @@
         android:textSize="15dp"
         android:textStyle="bold"
         android:textAlignment="center"/>
+-->
 
 </LinearLayout>

@@ -5,10 +5,11 @@
     <string-array name="languages_array">
         <item>Zulu</item>
         <item>isiXhosa</item>
-        <item>Shona</item>
     </string-array>
 
     <string name="select_a_language">Select a language</string>
+
+    <string name="forgot_password_1">Enter your email address below and we\'ll send you a link so that you can reset your password</string>
 
     <string name="take_picture">Take picture</string>
     <string name="CLASSES">ClASSES</string>
@@ -26,6 +27,7 @@
 
     <string name="title_activity_start_splash">Nozari Start Splash</string>
 
+    <string name="Register">Register</string>
     <string name="login">    Login</string>
     <string name="UserName">   UserName</string>
     <string name="SIGN_IN">SIGN IN</string>

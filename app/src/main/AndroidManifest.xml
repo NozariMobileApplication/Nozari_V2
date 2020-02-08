@@ -19,28 +19,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".StartSplash"
-
+        <activity android:name=".ForgotPassword"></activity>
+        <activity
+            android:name=".StartSplash"
             android:label="@string/title_activity_start_splash"
             android:parentActivityName=".MainActivityOld"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            >
-
-
-
         </activity>
         <activity android:name=".OCRTranslationSplash" />
+        <activity android:name=".Register" />
         <activity android:name=".BooksNew" />
         <activity android:name=".OCRMoMoSplash" />
         <activity
             android:name=".Login"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Books"
             android:label="@string/title_activity_books"
