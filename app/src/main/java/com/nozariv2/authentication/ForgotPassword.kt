@@ -1,4 +1,4 @@
-package com.nozariv2
+package com.nozariv2.authentication
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.nozariv2.Home
+import com.nozariv2.R
 
 class ForgotPassword : AppCompatActivity() {
 

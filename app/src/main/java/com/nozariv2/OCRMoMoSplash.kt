@@ -9,9 +9,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.gridtester.MomoViewModel
-import com.example.gridtester.Payer
-import com.example.gridtester.RequestToPay
+import com.nozariv2.momo.MomoViewModel
+import com.nozariv2.momo.Payer
+import com.nozariv2.momo.RequestToPay
 import java.util.*
 
 class OCRMoMoSplash : AppCompatActivity() {
@@ -24,13 +24,13 @@ class OCRMoMoSplash : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ocrsplash)
 
+        //Log.i("URI", intent.getStringExtra("IMAGE_URI"))
+
         mainViewModel = ViewModelProviders.of(this).get(MomoViewModel::class.java)
 
         makeRequest(transactionUUID)
 
         //Add loader for processing the transaction, before being able to check it (also a nice way to manage dialogue with user
-        
-        
 
         val btn = findViewById<Button>(R.id.button4)
 
@@ -40,26 +40,12 @@ class OCRMoMoSplash : AppCompatActivity() {
 
             checkRequest(transactionUUID)
 
-            val intent = Intent(this, OCRTranslationSplash::class.java).apply {
-
-
-
-                //this.setData(intent.data)
-                //putExtra("language_selection", intent.getStringExtra("language_selection"))
-            }
-            startActivity(intent)
         }
     }
 
     fun makeRequest(uuid : String) {
 
-        /*       mainViewModel!!.tokenResponse.observe(this, Observer {  response ->
-
-                   Log.i("MA: Response code token", response.code().toString())
-
-               })*/
-
-        val payer = Payer("MSISDN", "46733123454")
+        val payer = Payer("MSISDN", "467331230994")
         val req = RequestToPay("100", "EUR", "12345", payer ,"Payee Note", "Payer Message")
 
         mainViewModel!!.postRequestToPay("sandbox", uuid, req).observe(this, Observer { response ->
@@ -91,9 +77,7 @@ class OCRMoMoSplash : AppCompatActivity() {
                 upRequestDeclined()
 
             }
-
         })
-
     }
     
     fun upRequestStillPending(){
@@ -111,12 +95,11 @@ class OCRMoMoSplash : AppCompatActivity() {
     fun upRequestSuccessful(){
 
         Toast.makeText(this@OCRMoMoSplash, "Request Successful", Toast.LENGTH_LONG).show()
+        val intent = Intent(this, OCRTranslationSplash::class.java).apply {
+            putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
+            putExtra("language_selection", intent.getStringExtra("language_selection"))
+        }
+        startActivity(intent)
 
     }
-    
-    
-    
-    
-    
-    
 }

@@ -1,21 +1,22 @@
-package com.example.gridtester
+package com.nozariv2.momo
 
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class RequestToPay(
+data class GetRequestToPay(
     @Json(name = "amount")
-    val amount: String,
+    val amount: Int,
     @Json(name = "currency")
     val currency: String,
     @Json(name = "externalId")
-    val externalId: String,
+    val externalId: Int,
+    @Transient
+    @Json(name = "financialTransactionId")
+    val financialTransactionId: Int? = 0,
     @Json(name = "payer")
     val payer: Payer,
-    @Json(name = "payerMessage")
-    val payerMessage: String,
-    @Json(name = "payeeNote")
-    val payeeNote: String
+    @Json(name = "status")
+    val status: String
 )

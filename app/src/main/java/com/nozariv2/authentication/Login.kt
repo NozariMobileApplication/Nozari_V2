@@ -1,4 +1,4 @@
-package com.nozariv2
+package com.nozariv2.authentication
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.nozariv2.Home
+import com.nozariv2.R
 
 class Login : AppCompatActivity() {
 
@@ -59,6 +61,8 @@ class Login : AppCompatActivity() {
 
             progressBar.visibility = View.VISIBLE
             it.isClickable = false
+
+            //TODO THIS NEEDS A TRY CATCH FOR NO CONNECTION & ERROR CATCHING
 
             fAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->

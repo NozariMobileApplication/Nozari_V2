@@ -1,7 +1,6 @@
-package com.nozariv2
+package com.nozariv2.authentication
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -12,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
+import com.nozariv2.Home
+import com.nozariv2.R
 
 class Register : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.example.gridtester
+package com.nozariv2.momo
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -204,7 +204,7 @@ class MomoRepository
                             Log.i("T: request successful!", request.code().toString())
 
                             tokenAquired = true
-                            authToken = request.body()!!.accessToken
+                            authToken = "Bearer " + request.body()!!.accessToken
 
                             makeRequestToPay("Bearer " + request.body()!!.accessToken, targetEnvironment, referenceId, requestToPay)
                             mutableLiveData.value = request
@@ -236,7 +236,7 @@ class MomoRepository
             withContext(Dispatchers.Main) {
                 try {
 
-                    val request = client.getRequestToPay(referenceId, targetEnvironment, "0427b14ab6244eaba83381f55b69d3de", "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6ImU2ODM3YWFhLTIzZmItNDkwNy1hNmQ2LTgxNTk5OTRmNjA3NCIsImV4cGlyZXMiOiIyMDIwLTAxLTMwVDAwOjQzOjQ5Ljc4MCIsInNlc3Npb25JZCI6IjY2ODRlOTlhLWRhNTctNGJiYi1hYTY5LTgwZTI0MWY2NjA1ZiJ9.QXmeJpM2gVql7NRgipkiam2T3mmZdnAqB3GmfLJQ3CFuawZPAT-qwwBPBkhUtSNzWjXXBPEoi6Ze1n0Rs_YDCiuT15aQdiCRYTRNDvCclgos9dOa7G35mGMkmPVqLHzXXaf7mmbX_K248M1qQS071guSYvUgEPUX8lpjpsFwuaWM6rp9cHPmJh_LGWVKlo_Tuua23qsbBUCQ2sIkuVkJHOps2aBthDOYsX5aUw7niIQ3AmuE3E7qNjcpXUm7bcjy55u5bGdlXZ1TXOLTYnVvPEXpi3kL_mFr0OlufB_t3sh-tgM1dLd8UxP98ymwbAZhVI1LBDS0ZuDcksCuZe7AfA")
+                    val request = client.getRequestToPay(referenceId, targetEnvironment, "0427b14ab6244eaba83381f55b69d3de", authToken)
                     when{
                         request.isSuccessful -> {
                             Log.i("G: request successful!", request.code().toString())

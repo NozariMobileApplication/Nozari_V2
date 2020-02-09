@@ -23,10 +23,10 @@ class Home : AppCompatActivity() {
 
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
-    var image_uri: Uri? = null
+    var image_uri: Uri? = Uri.EMPTY
 
     fun startBooksIntent(view: View){
-        val intent = Intent(this, BooksNew::class.java)
+        val intent = Intent(this, Books::class.java)
         startActivity(intent)
     }
 
@@ -61,6 +61,10 @@ class Home : AppCompatActivity() {
         values.put(MediaStore.Images.Media.TITLE, "New Picture")
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
         image_uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+        //image_uri = this.image_uri
+        Log.i("TAG", "in open camera in Home")
+        Log.i("TAG", image_uri.toString())
         //camera intent
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
@@ -79,7 +83,7 @@ class Home : AppCompatActivity() {
                 }
                 else{
                     //permission from popup was denied
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Required Permissions Denied", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -91,11 +95,9 @@ class Home : AppCompatActivity() {
         Log.i("onActivityResult", "${image_uri}" )
         //called when image was captured from camera intent
         if (resultCode == Activity.RESULT_OK){
-            //set image captured to image view
-            //image_view.setImageURI(image_uri)
 
             val intent = Intent(this, OCRMoMoSplash::class.java).apply {
-                putExtra("IMAGE_URI", image_uri)
+                putExtra("IMAGE_URI", image_uri.toString())
                 putExtra("language_selection", intent.getStringExtra("language_selection"))
                 this.setData(image_uri)
             }

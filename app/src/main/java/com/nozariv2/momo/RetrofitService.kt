@@ -1,4 +1,4 @@
-package com.example.gridtester
+package com.nozariv2.momo
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.nozariv2.authentication.Login
 
 class StartSplash : AppCompatActivity() {
 
@@ -15,21 +16,11 @@ class StartSplash : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_splash)
 
-        FirebaseAuth.getInstance().signOut()
-
-        Log.i("NBNBNBNBNB", "USER HAS BEEN LOGGED OUT!")
-        Log.i("NBNBNBNBNB", "USER HAS BEEN LOGGED OUT!")
-        Log.i("NBNBNBNBNB", "USER HAS BEEN LOGGED OUT!")
-        Log.i("NBNBNBNBNB", "USER HAS BEEN LOGGED OUT!")
-        Log.i("NBNBNBNBNB", "USER HAS BEEN LOGGED OUT!")
-        Log.i("NBNBNBNBNB", "USER HAS BEEN LOGGED OUT!")
-        Log.i("NBNBNBNBNB", "USER HAS BEEN LOGGED OUT!")
-
         Handler().postDelayed({
             // This method will be executed once the timer is over
             // Start your app main activity
 
-            startActivity(Intent(this,Login::class.java))
+            startActivity(Intent(this, Login::class.java))
 
             // close this activity
             finish()

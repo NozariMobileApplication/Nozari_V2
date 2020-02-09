@@ -19,11 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ForgotPassword"></activity>
+        <activity android:name=".authentication.ForgotPassword"></activity>
         <activity
             android:name=".StartSplash"
             android:label="@string/title_activity_start_splash"
-            android:parentActivityName=".MainActivityOld"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,22 +31,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".OCRTranslationSplash" />
-        <activity android:name=".Register" />
-        <activity android:name=".BooksNew" />
+        <activity android:name=".authentication.Register" />
+        <activity android:name=".Books" />
         <activity android:name=".OCRMoMoSplash" />
         <activity
-            android:name=".Login"
+            android:name=".authentication.Login"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Books"
-            android:label="@string/title_activity_books"
-            android:parentActivityName=".MainActivityOld"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.MainActivityOld" />
-        </activity>
         <activity
             android:name=".OCRCameraNew"
             android:label="@string/title_activity_ocrcamera"
@@ -60,61 +50,21 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:parentActivityName=".Login"
+            android:parentActivityName=".authentication.Login"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.Login" />
+                android:value="com.nozariv2.authentication.Login" />
         </activity>
         <activity
-            android:name=".OCRCamera"
+            android:name=".CameraX"
             android:label="@string/title_activity_ocrcamera"
-            android:parentActivityName=".Login"
+            android:parentActivityName=".authentication.Login"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.Login" />
+                android:value="com.nozariv2.authentication.Login" />
         </activity>
-        <activity
-            android:name=".New_Account"
-            android:label="@string/title_activity_new_account"
-            android:parentActivityName=".Login"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.Login" />
-        </activity>
-        <activity
-            android:name=".FaceBook"
-            android:label="@string/title_activity_facebook"
-            android:parentActivityName=".Login"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.Login" />
-        </activity>
-        <activity
-            android:name=".Twitter"
-            android:label="@string/title_activity_twitter"
-            android:parentActivityName=".Login"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.Login" />
-        </activity>
-        <activity
-            android:name=".Google"
-            android:label="@string/title_activity_google"
-            android:parentActivityName=".Login"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.Login" />
-        </activity>
-        <activity
-            android:name=".MainActivityOld"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

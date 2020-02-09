@@ -1,9 +1,7 @@
 package com.nozariv2
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
@@ -14,7 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 
 import kotlinx.android.synthetic.main.activity_ocrcamera.*
 import java.io.File
@@ -29,7 +26,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 
-class OCRCamera : AppCompatActivity() {
+class CameraX : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,7 +138,7 @@ class OCRCamera : AppCompatActivity() {
             .addOnSuccessListener {
 
                 Log.i("text", it.text)
-                Toast.makeText(this@OCRCamera, it.text, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@CameraX, it.text, Toast.LENGTH_LONG).show()
 
                 textView.text = it.text
 
@@ -153,7 +150,7 @@ class OCRCamera : AppCompatActivity() {
                 }
                 tvOutput.text = text*/
             }
-            .addOnFailureListener { p0 -> Toast.makeText(this@OCRCamera, p0.message, Toast.LENGTH_LONG).show() }
+            .addOnFailureListener { p0 -> Toast.makeText(this@CameraX, p0.message, Toast.LENGTH_LONG).show() }
     }
 
     fun getCameraPhotoOrientation(context: Context, imageUri: Uri,imagePath: String): Int {
