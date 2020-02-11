@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".authentication.ForgotPassword"></activity>
+        <activity android:name=".books.SelectBook"></activity>
+        <activity android:name=".authentication.ForgotPassword" />
         <activity
             android:name=".StartSplash"
             android:label="@string/title_activity_start_splash"
@@ -32,7 +33,7 @@
         </activity>
         <activity android:name=".OCRTranslationSplash" />
         <activity android:name=".authentication.Register" />
-        <activity android:name=".Books" />
+        <activity android:name=".books.Books" />
         <activity android:name=".OCRMoMoSplash" />
         <activity
             android:name=".authentication.Login"

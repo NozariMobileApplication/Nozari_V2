@@ -102,6 +102,7 @@ class OCRTranslationSplash : AppCompatActivity() {
     private fun launchOCRCameraIntent(text: String){
         val intent = Intent(this, OCRCameraNew::class.java).apply {
             putExtra("translated_text", text)
+            putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
             this.setData(intent.data)
         }
         startActivity(intent)

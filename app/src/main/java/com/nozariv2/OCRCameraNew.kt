@@ -1,24 +1,14 @@
 package com.nozariv2
 
-import android.content.Context
-import android.graphics.Bitmap
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import com.google.android.gms.tasks.Task
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.text.FirebaseVisionText
-import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.nozariv2.books.SelectBook
 
 class OCRCameraNew : AppCompatActivity() {
 
@@ -26,14 +16,27 @@ class OCRCameraNew : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ocrcamera_new)
 
-        val imageURI = intent.data
+        val imageURI = intent.getStringExtra("IMAGE_URI")
         val imageView = findViewById<ImageView>(R.id.ocrCameraImageView).apply {
-            this.setImageURI(imageURI)
+            this.setImageURI(Uri.parse(imageURI))
         }
 
         val textView =  findViewById<TextView>(R.id.ocrTextView).apply{
             this.text = intent.getStringExtra("translated_text")
         }
 
+        val confirm = findViewById<View>(R.id.confirm_page_button) as ImageView
+        confirm.setOnClickListener{
+            savePage()
+        }
+
+    }
+
+    fun savePage(){
+        val intent = Intent(this, SelectBook::class.java).apply {
+            putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
+            this.setData(intent.data)
+        }
+        startActivity(intent)
     }
 }
