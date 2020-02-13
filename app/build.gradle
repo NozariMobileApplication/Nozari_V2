@@ -96,6 +96,8 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie:3.2.2'
 
+    implementation 'org.ligboy.library:google-translate:1.0.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

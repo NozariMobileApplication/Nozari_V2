@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.ligboy.translate.Translate
 import java.io.IOException
 
 class OCRTranslationSplash : AppCompatActivity() {
@@ -84,6 +85,26 @@ class OCRTranslationSplash : AppCompatActivity() {
         withContext(Dispatchers.Main){
             launchOCRCameraIntent(result.replace("_", "."))
         }
+    }
+
+    suspend fun makeTranslationRequestNew(text: String){
+        val translate = Translate.Builder().build()
+         GlobalScope.launch{ withContext(Dispatchers.IO){
+
+            try {
+
+                translate.refreshTokenKey()
+                val translateResult = translate.translate("", "en", "zu")
+
+                launchOCRCameraIntent(translateResult!!.targetText!!)
+
+            } catch (e: Exception){
+
+                Log.i("exception", e.toString())
+
+            }
+        } }
+
     }
 
     private fun slowFetch(text: String): String{

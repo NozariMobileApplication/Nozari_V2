@@ -82,12 +82,9 @@ class Login : AppCompatActivity() {
                             Toast.LENGTH_LONG).show()
                     }
 
-                    // ...
                 }
 
-
         }
-
 
     }
 

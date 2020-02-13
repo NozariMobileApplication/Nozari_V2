@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:background="@drawable/rectangle123"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/feature_text"
+        android:layout_width="78dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/featured_"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/slider_images"
+        app:layout_constraintEnd_toStartOf="@+id/elipse_select"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/elipse_1"
+        android:layout_width="9dp"
+        android:layout_height="10dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/elipse_1"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/slider_images"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/elipse_2"
+        android:layout_width="9dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/elipse_2"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/slider_images"
+        app:layout_constraintStart_toEndOf="@+id/elipse_1" />
+
+    <ImageView
+        android:id="@+id/elipse_select"
+        android:layout_width="9dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/elipse_select"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/slider_images"
+        app:layout_constraintEnd_toStartOf="@+id/elipse_1" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:background="@drawable/rectangle"
+        android:onClick="openOCRCameraActivity"
+        android:text="Take a picture"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/likes"
+        android:layout_width="55dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/likes"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/slider_images"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.828"
+        app:layout_constraintStart_toEndOf="@+id/elipse_2" />
+
+    <ImageView
+        android:id="@+id/slider_images"
+        android:layout_width="0dp"
+        android:layout_height="283dp"
+        android:layout_marginBottom="392dp"
+        android:background="@drawable/mobile_ocr_app_in_action"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/whiteblock"
+        android:layout_width="0dp"
+        android:layout_height="151dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider_images" />
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/arialbd"
+        android:text="Welcome to Nozari"
+        android:textColor="@color/blue"
+        android:textSize="12pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.204"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider_images" />
+
+    <TextView
+        android:id="@+id/welcome_text_small"
+        android:layout_width="0dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/arial"
+        android:text="Your mobile study buddy"
+        android:textColor="@color/blue"
+        android:textSize="6pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
+
+    <TextView
+        android:id="@+id/intro_text"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/arial"
+        android:text="With just one click of a button, you can instantly translate a page of a textbook into a more convenient language."
+        android:textAlignment="textStart"
+        android:textColor="@color/darkgrey"
+        android:textSize="7pt"
+        app:layout_constraintBottom_toBottomOf="@+id/whiteblock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/folder"
+        android:onClick="startBooksIntent"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/book_text"
+        app:layout_constraintTop_toBottomOf="@+id/intro_text" />
+
+    <Button
+        android:id="@+id/menu"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:onClick="makePostRequest"-->
+    <!--        android:text="Send Request"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        tools:layout_editor_absoluteY="630dp" />-->
+
+
+    <TextView
+        android:id="@+id/book_text"
+        android:layout_width="151dp"
+        android:layout_height="153dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/arialbd"
+        android:text="Start your journey by \n creating your first \n book to keep all \n your notes"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/whiteblock" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
