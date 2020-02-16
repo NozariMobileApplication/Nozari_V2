@@ -1,4 +1,4 @@
-package com.nozariv2.database.table
+package com.nozariv2.database.tables
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -8,13 +8,18 @@ import java.util.*
 @Entity (tableName = "books_table")
 class Book (
 
-    @PrimaryKey()
-    @ColumnInfo(name = "id")
-    val id: String = UUID.randomUUID().toString(),
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "book_id")
+    val bookId: Int,
+//    val id: String = UUID.randomUUID().toString(),
 
     @ColumnInfo(name = "userid")
     val userId: String,
 
+    @ColumnInfo(name = "create_date")
+    val createDate: String,
+
     @ColumnInfo(name = "name")
     val bookName: String
+
 )

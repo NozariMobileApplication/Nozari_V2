@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".books.SelectBook"></activity>
+        <activity android:name=".Pages"></activity>
+        <activity android:name=".books.NewBook" />
+        <activity android:name=".books.SelectBook" />
         <activity android:name=".authentication.ForgotPassword" />
         <activity
             android:name=".StartSplash"

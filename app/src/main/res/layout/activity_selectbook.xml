@@ -5,4 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".books.SelectBook"
-    android:background="@drawable/create"/>
+    android:background="@drawable/select_book_background">
+
+    <ImageView
+        android:id="@+id/selectbooks_menu_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/menu" />
+
+    <TextView
+        android:id="@+id/selectbooks_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/BOOKS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/selectbooks_menu_button"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/selectbooks_searchbar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectbooks_header"
+        android:background="@drawable/searchbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/select_book_search_string"
+            android:background="@null"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/selectbook_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectbooks_searchbar"
+        tools:listitem="@layout/recyclerview_book_item" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/newbook_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="40dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
+
+
+    <!--        android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/picture" />-->
+<!--        <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/picture_pressed" />-->
+<!--        <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/picture_pressed" />-->
+<!--        <item android:="@drawable/picture"-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

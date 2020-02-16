@@ -60,12 +60,24 @@
     <string name="CLASSES">ClASSES</string>
     <string name="EDIT">EDIT</string>
     <string name="BOOKS">BOOKS</string>
+    <string name="PAGES">PAGES</string>
     <string name="profile_header_string">PROFILE</string>
     <string name="books_header_string">BOOKS</string>
     <string name="gallery_header_string">GALLERY</string>
     <string name="gallery_recent_string">RECENT ACTIVITY</string>
     <string name="gallery_favourites_string">FAVOURITES</string>
     <string name="gallery_new_string">NEW</string>
+
+
+
+
+    <string name="select_book_search_string">Select a book to save the page to</string>
+
+    <string name="new_book_search_string">Search</string>
+    <string name="new_book_description_string">Click on the \'+\' to add a cover to the book from your gallery</string>
+    <string name="new_book_name_prompt_string">Type Book Name Here</string>
+    <string name="book_created_string">New Book Created</string>
+    <string name="new_book_error_string">Error creating new book</string>
 
     <!--   User Prompts   -->
 
