@@ -18,7 +18,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
+import java.io.File
 
 class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,21 +81,6 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         }
     }
 
-    private fun openCamera() {
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, "New Picture")
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
-        image_uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-
-        //image_uri = this.image_uri
-        Log.i("TAG", "in open camera in Home")
-        Log.i("TAG", image_uri.toString())
-        //camera intent
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
-        Log.i("openCamera", "${image_uri}" )
-        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
-    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         //called when user presses ALLOW or DENY from Permission Request Popup
@@ -112,10 +99,69 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    private fun openCamera() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        image_uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+        //image_uri = this.image_uri
+        Log.i("TAG", "in open camera in Home")
+        Log.i("TAG", image_uri.toString())
+        //camera intent
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
+        Log.i("openCamera", "${image_uri}" )
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+    }
+
+    fun startImagePicker(view: View){
+
+        ImagePicker.with(this)
+            //.compress(1024)         //Final image size will be less than 1 MB(Optional)
+            //.maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
+            .start { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    //Image Uri will not be null for RESULT_OK
+                    val fileUri = data!!.data
+                    //imgProfile.setImageURI(fileUri)
+
+                    Log.i("fURI", fileUri.toString())
+
+                    //You can get File object from intent
+                    val file: File? = ImagePicker.getFile(data)
+
+                    //You can also get File Path from intent
+                    val filePath: String? = ImagePicker.getFilePath(data)
+
+                    Log.i("fPath", filePath)
+
+                    val intent = Intent(this, OCRMoMoSplash::class.java).apply {
+                        putExtra("IMAGE_URI", fileUri.toString())
+                        putExtra("language_selection", intent.getStringExtra("language_selection"))
+                        this.setData(fileUri)
+                    }
+
+                    startActivity(intent)
+
+
+                } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                    Log.i("ERR",  ImagePicker.getError(data))
+                    Toast.makeText(applicationContext, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(applicationContext, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+    }
+
+//No Longer neccessary because of the above code for ImagePicker***
+/*    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         super.onActivityResult(requestCode, resultCode, data)
         Log.i("onActivityResult", "${image_uri}" )
+
+
         //called when image was captured from camera intent
         if (resultCode == Activity.RESULT_OK){
 
@@ -127,7 +173,7 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
             startActivity(intent)
         }
-    }
+    }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

@@ -95,8 +95,12 @@ class OCRMoMoSplash : AppCompatActivity() {
     fun upRequestSuccessful(){
 
         Toast.makeText(this@OCRMoMoSplash, "Request Successful", Toast.LENGTH_LONG).show()
+
+        Log.i("fURI", intent.data.toString())
+
         val intent = Intent(this, OCRTranslationSplash::class.java).apply {
             putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
+            data = (intent.data)
             putExtra("language_selection", intent.getStringExtra("language_selection"))
         }
         startActivity(intent)

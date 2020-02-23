@@ -34,8 +34,7 @@ class OCRTranslationSplash : AppCompatActivity() {
         val imageURI = intent.getStringExtra("IMAGE_URI")
 
         if (imageURI!=null){
-            val imageBitmap = managedImageFromUri(Uri.parse(imageURI))
-            onDeviceRecognizeText(imageBitmap!!)
+            launchOCRCameraIntent()
         }
     }
 
@@ -80,23 +79,23 @@ class OCRTranslationSplash : AppCompatActivity() {
         val newText = text.replace("\n", " ")
         val newNewtext = newText.replace(".", "_")
 
-        val result = slowFetch(newNewtext)
+        //val result = slowFetch(newNewtext)
 
         withContext(Dispatchers.Main){
-            launchOCRCameraIntent(result.replace("_", "."))
+            launchOCRCameraIntent()
         }
     }
 
     suspend fun makeTranslationRequestNew(text: String){
-        val translate = Translate.Builder().build()
+        //val translate = Translate.Builder().build()
          GlobalScope.launch{ withContext(Dispatchers.IO){
 
             try {
 
-                translate.refreshTokenKey()
-                val translateResult = translate.translate("", "en", "zu")
+               // translate.refreshTokenKey()
+                //val translateResult = translate.translate("", "en", "zu")
 
-                launchOCRCameraIntent(translateResult!!.targetText!!)
+                launchOCRCameraIntent()
 
             } catch (e: Exception){
 
@@ -107,7 +106,7 @@ class OCRTranslationSplash : AppCompatActivity() {
 
     }
 
-    private fun slowFetch(text: String): String{
+/*    private fun slowFetch(text: String): String{
         val trans = Translator()
         Log.i("info", "In slow fetch!")
 
@@ -117,10 +116,18 @@ class OCRTranslationSplash : AppCompatActivity() {
             langCode = intent.getStringExtra("language_selection")
         }
 
-        return trans.callUrlAndParseResult("en", langCode, text)
+        //return trans.callUrlAndParseResult("en", langCode, text)
+    }*/
+
+    private fun launchOCRCameraIntent(){
+        val intent = Intent(this, ImageTester::class.java).apply {
+            //putExtra("translated_text", text)
+            data = (intent.data)
+        }
+        startActivity(intent)
     }
 
-    private fun launchOCRCameraIntent(text: String){
+    private fun launchOCRCameraIntentOld(text: String){
         val intent = Intent(this, OCRCameraNew::class.java).apply {
             putExtra("translated_text", text)
             this.setData(intent.data)
