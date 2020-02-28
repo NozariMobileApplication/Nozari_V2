@@ -1,30 +1,37 @@
 package com.nozariv2
 
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nozariv2.database.adapters.PageListAdapter
 import com.nozariv2.database.viewModels.PageViewModel
-import com.nozariv2.database.viewmodelfactories.PageViewModelFactory
+import org.jetbrains.anko.doAsync
 
 
 class Pages : AppCompatActivity() {
 
     private lateinit var pageViewModel: PageViewModel
+    lateinit var mainImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pages)
 
+        mainImageView = findViewById(R.id.page_image)
         val bookId = intent.getStringExtra("BOOK_ID").toInt()
 
         val recyclerView = findViewById<RecyclerView>(R.id.pages_recyclerview)
-        val adapter = PageListAdapter(this)
+        val adapter = object : PageListAdapter(this){
+            override fun onPictureClick() { //override the abstract method
+//                mainImageView.setImageURI(Uri.parse( this.pages[this.position].uri))
+                val adapter = this
+                doAsync { mainImageView.setImageURI(Uri.parse( adapter.pages[adapter.position].uri)) }
+            }}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
 
@@ -44,5 +51,15 @@ class Pages : AppCompatActivity() {
 
         pageViewModel.filter(bookId)
 
+    }
+
+    fun getPages(): Pages {
+        val page = this
+        return page
+    }
+
+    fun getImageView(): ImageView? {
+        val imageViewForPage = findViewById<ImageView>(R.id.page_image)
+        return imageViewForPage
     }
 }

@@ -119,6 +119,9 @@ dependencies {
     // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
 
+    //Async
+    implementation "org.jetbrains.anko:anko-commons:0.10.0"
+
 }
 
 apply plugin: 'com.google.gms.google-services'
