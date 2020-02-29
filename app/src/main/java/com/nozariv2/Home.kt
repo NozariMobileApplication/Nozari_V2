@@ -18,8 +18,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProviders
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
+import com.nozariv2.cloudtranslate.TranslationRequest
+import com.nozariv2.cloudtranslate.TranslationViewModel
+import com.nozariv2.momo.MomoViewModel
 import java.io.File
 
 class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

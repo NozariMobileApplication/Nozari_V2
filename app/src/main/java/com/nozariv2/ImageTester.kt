@@ -6,11 +6,15 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.document.FirebaseVisionDocumentText
 import com.google.firebase.ml.vision.text.FirebaseVisionText
+import com.nozariv2.cloudtranslate.TranslationRequest
+import com.nozariv2.cloudtranslate.TranslationViewModel
 import kotlinx.coroutines.*
 import org.ligboy.translate.Translate
 import java.io.IOException
@@ -19,6 +23,8 @@ import java.util.stream.IntStream
 lateinit var dataLoad: Deferred<String>
 
 class ImageTester : AppCompatActivity() {
+
+    var mainViewModel: TranslationViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +66,10 @@ class ImageTester : AppCompatActivity() {
 
     suspend fun translateText(inputText : String, sourceLang : String, targetLang : String) : String? =
         withContext(Dispatchers.IO) {
+
+
+
+
 
             val translate = Translate.Builder().logLevel(Translate.LogLevel.BASIC).build()
             var returnString = ""
@@ -115,17 +125,55 @@ class ImageTester : AppCompatActivity() {
                 val trBlocks: ArrayList<String> = ArrayList()
                 var transString = ""
 
-                for (i in 0..firebaseVisionText.blocks.size - 1) {
+                for (i in 1..firebaseVisionText.blocks.size - 1) {
                     transString += ("{P}" + firebaseVisionText.blocks[i].text)
                 }
 
                 Log.i("TS", transString)
 
+                mainViewModel = ViewModelProviders.of(this).get(TranslationViewModel::class.java)
+
+                val transReq = TranslationRequest(transString, "en", "zu", "text")
+
+                mainViewModel!!.makeTranslationRequest("AIzaSyBRATktWsGcNiIQJdE-gyS50tIETZLg3aY", transReq).observe(this, Observer { response ->
+
+                    if(response.code()==200){
+
+                        Log.i("TTS", response.body()!!.data.translations[0].translatedText.split("{P} ").toString())
+
+                        for(blockText in response.body()!!.data.translations[0].translatedText.split("{P}")){
+                            Log.i("TR", blockText)
+                            trBlocks.add(blockText)
+
+                        }
+
+                        /*for(blockText in response.body()!!.data.translations[0].translatedText.split("{P} ")){
+                            Log.i("TR", blockText)
+                            if (blockText.isNotEmpty()){
+                                trBlocks.add(blockText)
+                            }
+                        }*/
+                        //Log.i("TRB", trBlocks.toString())
+                        writeTRBlocksOntoBitmap(trBlocks, firebaseVisionText, canvas)
+                        imageView.setImageBitmap(mutableBitmap)
+
+                    } else {
+
+                        Log.i("Tr", "Translation failure")
+                        Log.i("R", "" + response.code())
+                        Log.i("R", response.message())
+
+                    }
+
+
+
+                })
+
                 //val translatedText = .launch { // we should use IO thread here !
 
                 //}
 
-                GlobalScope.launch {
+/*                GlobalScope.launch {
                     val translatedText = translateText(transString, "en", "en")
                     for(blockText in translatedText!!.split("{P}")){
                         Log.i("TR", blockText)
@@ -136,10 +184,7 @@ class ImageTester : AppCompatActivity() {
                     imageView.setImageBitmap(mutableBitmap)
 
                     // continue processing on the UI thread using videoFile
-                }
-
-
-
+                }*/
 
                 Log.i("TT", trBlocks.toString())
 
@@ -233,7 +278,7 @@ class ImageTester : AppCompatActivity() {
     //STORED IN LONGESTCHARCOUNT
     for (i in 0..fbVisionText.blocks.size-1) {
 
-        var block = fbVisionText.blocks[i]
+        //var block = fbVisionText.blocks[i]
 
         //trBlocks[i]
 
@@ -268,18 +313,18 @@ class ImageTester : AppCompatActivity() {
 
         var block = fbVisionText.blocks[i]
 
-        val testTextSize = 70f
+        val testTextSize = 70.0
 
         //TODO boundsWidth and boundsHeight are the same value
 
-        textPaint.setTextSize(testTextSize)
+        textPaint.setTextSize(testTextSize.toFloat())
         val boundsWidth : Rect = Rect()
         val boundsHeight : Rect = Rect()
         textPaint.getTextBounds(longestCharCountList[i], 0, longestCharCountList[i].length, boundsWidth)
         textPaint.getTextBounds(longestCharCountList[i], 0, longestCharCountList[i].length, boundsHeight)
 
         // Calculate the desired size as a proportion of our testTextSize.
-        val desiredTextSize: Float
+        val desiredTextSize: Double
         //val desiredTextSizeWidth = testTextSize * block.boundingBox!!.width() / bounds.width()
 
         //TODO FIGURE OUT WHY DIVIDE BY ZERO, TRY DEBUG THE CALLS SEE WHAT IS ZERO
@@ -290,7 +335,12 @@ class ImageTester : AppCompatActivity() {
         Log.i("BBH", block.boundingBox!!.height().toString())
         Log.i("LCount", lineCount[i].toString())
 
-        desiredTextSize = testTextSize * Math.min(block.boundingBox!!.width() / boundsWidth.width(), block.boundingBox!!.height() / boundsHeight.height() * lineCount[i])
+
+
+        Log.i("MinW", (block.boundingBox!!.width().toDouble() / boundsWidth.width().toDouble()).toString())
+        Log.i("MinH", (block.boundingBox!!.height() / boundsHeight.height() * lineCount[i]).toString())
+
+        desiredTextSize = testTextSize * Math.min(block.boundingBox!!.width().toDouble() / boundsWidth.width().toDouble(), block.boundingBox!!.height().toDouble() / boundsHeight.height().toDouble() * lineCount[i])
 
         Log.i("TS", desiredTextSize.toString())
 
@@ -307,7 +357,7 @@ class ImageTester : AppCompatActivity() {
                         desiredTextSizeWidth
                     }*/
 
-        textSizeList.add(i, desiredTextSize)
+        textSizeList.add(i, desiredTextSize.toFloat())
 
         Log.i("textSize", desiredTextSize.toString())
 
