@@ -39,12 +39,13 @@ class ImageTester : AppCompatActivity() {
         val image: FirebaseVisionImage
         try {
             image = FirebaseVisionImage.fromFilePath(this, imageURI!!)
-            ocrImageWithoutLines(image)
+            //ocrImageWithoutLines(image)
         } catch (e: IOException) {
             e.printStackTrace()
         }
     }
-
+}
+/*
     fun ocrImageWithoutLines(image: FirebaseVisionImage) {
 
         //From Google
@@ -66,6 +67,7 @@ class ImageTester : AppCompatActivity() {
 
                 val trBlocks: ArrayList<String> = ArrayList()
                 var transString = ""
+                transString += firebaseVisionText.blocks[0].text
 
                 for (i in 1..firebaseVisionText.blocks.size - 1) {
                     transString += ("{P}" + firebaseVisionText.blocks[i].text)
@@ -220,4 +222,4 @@ class ImageTester : AppCompatActivity() {
             }
         }
     }
-}
+}*/

@@ -140,7 +140,7 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
                     Log.i("fPath", filePath)
 
-                    val intent = Intent(this, OCRMoMoSplash::class.java).apply {
+                    val intent = Intent(this, OCRTranslationSplash::class.java).apply {
                         putExtra("IMAGE_URI", fileUri.toString())
                         putExtra("language_selection", intent.getStringExtra("language_selection"))
                         this.setData(fileUri)

@@ -129,7 +129,7 @@ dependencies {
     //implementation 'com.github.iammannan:TranslateAPI:1.0'
 
     //Camera or Gallery picker!
-    implementation ('com.github.dhaval2404:imagepicker:1.6'){
+    implementation('com.github.dhaval2404:imagepicker:1.6') {
         exclude group: 'com.github.yalantis', module: 'ucrop'
     }
     implementation 'com.yalantis:ucrop:2.2.0-native'
