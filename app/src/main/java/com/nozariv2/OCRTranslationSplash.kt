@@ -32,20 +32,15 @@ class OCRTranslationSplash : AppCompatActivity() {
 
         val imageURI = intent.data
 
-        if (imageURI != null) {
             val image: FirebaseVisionImage
             try {
                 image = FirebaseVisionImage.fromFilePath(this, imageURI!!)
-                if(image==null){
-                    Log.i("TAG", "img is null")
-                }
                 ocrImageWithoutLines(image)
                 //start display activity, passing the image uri
 
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        }
     }
 
     fun ocrImageWithoutLines(image: FirebaseVisionImage) {
