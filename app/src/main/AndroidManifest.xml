@@ -22,6 +22,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".OverlayedPageDisplay"></activity>
         <activity android:name=".ImageTester" />
+        <activity android:name=".Pages"></activity>
+        <activity android:name=".books.NewBook" />
+        <activity android:name=".books.SelectBook" />
         <activity android:name=".authentication.ForgotPassword" />
         <activity
             android:name=".StartSplash"
@@ -29,7 +32,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".OCRTranslationSplash" />
         <activity android:name=".authentication.Register" />
-        <activity android:name=".Books" />
+        <activity android:name=".books.Books" />
         <activity android:name=".OCRMoMoSplash" />
         <activity
             android:name=".authentication.Login"
