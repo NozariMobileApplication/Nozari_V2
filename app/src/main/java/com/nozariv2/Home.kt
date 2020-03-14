@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
+import com.nozariv2.books.Books
 import com.nozariv2.cloudtranslate.TranslationRequest
 import com.nozariv2.cloudtranslate.TranslationViewModel
 import com.nozariv2.momo.MomoViewModel
