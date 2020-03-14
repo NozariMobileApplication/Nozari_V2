@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,7 @@ class Books : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager= GridLayoutManager(this,3)
 
-        bookViewModel = ViewModelProvider(this).get(BookViewModel::class.java)
+        bookViewModel = ViewModelProviders.of(this).get(BookViewModel::class.java)
         bookViewModel.allbooks.observe(this, Observer { books ->
             // Update the cached copy of the words in the adapter.
             books?.let { adapter.setBooks(it) }

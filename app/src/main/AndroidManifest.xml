@@ -24,11 +24,7 @@
         <activity
             android:name=".Wallet"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".OverlayedPageDisplay" />
         <activity android:name=".ImageTester" />
@@ -42,7 +38,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OCRTranslationSplash" />
         <activity android:name=".authentication.Register" />
-        <activity android:name=".books.Books" />
+        <activity android:name=".books.Books" >         <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".momo.OCRMoMoSplash" />
         <activity
             android:name=".authentication.Login"
