@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#9D2699FB</color>
     <color name="colorAccent">#4083FF</color>
     <color name="blue">#FFFFFF</color>
@@ -9,11 +9,14 @@
     <color name="darkgrey">#808080</color>
     <color name="black">#000000</color>
 
+    <color name="bottom_bar_background">#15AEDD</color>
+    <color name="wallet_background">#B9E6F0</color>
+    <color name="home_background">#B9E6F0</color>
+
+
 
     <!-- CAMERA X IMPL -->
     <color name="icActive">#FFFFFFFF</color>
     <color name="icFocused">#DDFFFFFF</color>
     <color name="icPressed">#AAFFFFFF</color>
-
-
 </resources>

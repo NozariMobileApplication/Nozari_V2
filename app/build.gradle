@@ -137,6 +137,8 @@ dependencies {
     implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
     implementation 'id.zelory:compressor:3.0.0'
 
+    implementation 'com.github.technolifestyle:AutoImageFlipper:1.6.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

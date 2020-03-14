@@ -1,4 +1,4 @@
-package com.nozariv2
+package com.nozariv2.momo
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +9,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.nozariv2.momo.MomoViewModel
-import com.nozariv2.momo.Payer
-import com.nozariv2.momo.RequestToPay
+import com.nozariv2.OCRTranslationSplash
+import com.nozariv2.R
 import java.util.*
 
 class OCRMoMoSplash : AppCompatActivity() {

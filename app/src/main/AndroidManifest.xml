@@ -20,17 +20,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".OverlayedPageDisplay"></activity>
+        <activity android:name=".Home2"></activity>
+        <activity
+            android:name=".Wallet"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".OverlayedPageDisplay" />
         <activity android:name=".ImageTester" />
         <activity android:name=".authentication.ForgotPassword" />
         <activity
             android:name=".StartSplash"
             android:label="@string/title_activity_start_splash"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OCRTranslationSplash" />
         <activity android:name=".authentication.Register" />
         <activity android:name=".Books" />
-        <activity android:name=".OCRMoMoSplash" />
+        <activity android:name=".momo.OCRMoMoSplash" />
         <activity
             android:name=".authentication.Login"
             android:label="@string/app_name"
@@ -49,12 +59,6 @@
             android:label="@string/title_activity_home"
             android:parentActivityName=".authentication.Login"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nozariv2.authentication.Login" />
