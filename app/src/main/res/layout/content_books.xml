@@ -47,6 +47,22 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/top_bar_name_wallet"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="0dp"
+                    android:gravity="center_horizontal"
+                    android:fontFamily="@font/arial"
+                    android:textStyle="bold"
+                    android:text=""
+                    android:textColor="#95989A"
+                    android:textSize="24sp" />
+
+
                 <ImageView
                     android:id="@+id/top_bar_camera"
                     android:layout_width="35dp"
@@ -80,10 +96,10 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="7dp"
                     android:layout_toStartOf="@+id/top_bar_camera"
                     app:srcCompat="@drawable/topbar_help_icon" />
 
