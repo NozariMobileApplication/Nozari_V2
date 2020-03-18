@@ -42,6 +42,7 @@ class NewBook : AppCompatActivity() {
             val replyIntent = Intent()
             if (TextUtils.isEmpty(editWordView.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
+                Toast.makeText(applicationContext, "Please enter book name", Toast.LENGTH_SHORT).show()
             }
             if (uri.equals("")) Toast.makeText(applicationContext, "Please set cover image", Toast.LENGTH_SHORT).show()
             else {

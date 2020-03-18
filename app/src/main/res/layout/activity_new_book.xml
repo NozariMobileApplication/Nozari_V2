@@ -63,7 +63,7 @@
         android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/new_book_name_prompt_string"
+        android:hint="@string/new_book_name_prompt_string"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/add_coverpage_button"
         app:layout_constraintTop_toBottomOf="@+id/add_coverpage_button" />

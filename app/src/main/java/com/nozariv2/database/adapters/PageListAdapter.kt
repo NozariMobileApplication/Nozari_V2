@@ -23,12 +23,12 @@ abstract class PageListAdapter internal constructor(context: Context) : Recycler
     var position: Int=0
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    var pages = emptyList<Page>() // Cached copy of books
+    public var pages = emptyList<Page>() // Cached copy of books
+    var set=false
     val context = context
     lateinit var parent: ViewGroup
 
     inner class PageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val pageItemView: TextView = itemView.findViewById(R.id.recyclerPageView_Text)
         val pageIcon: ImageView = itemView.findViewById(R.id.recyclerPageView_Icon)
 //        val mainPageImage: ImageView = mainView.findViewById(R.id.page_image)
     }
@@ -44,7 +44,7 @@ abstract class PageListAdapter internal constructor(context: Context) : Recycler
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onBindViewHolder(holder: PageViewHolder, position: Int) {
         val current = pages[position]
-        holder.pageItemView.text = current.id.toString()
+//        holder.pageItemView.text = current.id.toString()
 
 
         doAsync {
@@ -56,14 +56,8 @@ abstract class PageListAdapter internal constructor(context: Context) : Recycler
         holder.itemView.setOnClickListener(){
             this.holder=holder
             this.position=position
-            holder.pageItemView.text=current.createDate
+//            holder.pageItemView.text=current.createDate
             onPictureClick()
-//
-//            val itemView = LayoutInflater.from(parent.context).inflate(R.layout.activity_pages,parent,false)
-//            val mainPageImage: ImageView = itemView.findViewById(R.id.page_image)
-//            mainPageImage.setImageURI(null)
-//            mainPageImage.setImageURI(Uri.parse(current.uri))
-//            mainPageImage.setBackgroundColor(Color.BLACK)
 
         }
     }
@@ -71,6 +65,7 @@ abstract class PageListAdapter internal constructor(context: Context) : Recycler
     internal fun setPages(pages: List<Page>) {
         this.pages = pages
         notifyDataSetChanged()
+        set=true
     }
 
     override fun getItemCount() = pages.size

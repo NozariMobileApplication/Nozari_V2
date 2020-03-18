@@ -116,7 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_white_24dp" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
         android:id="@+id/books_searchbar"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -127,19 +127,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+       android:drawableStart="@drawable/search_icon"
+        android:drawableLeft="@drawable/search_icon"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="40dp"
+        android:hint="@string/new_book_search_string"
+        >
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:drawableStart="@drawable/search_icon"
-            android:drawableLeft="@drawable/search_icon"
-            android:gravity="center"
-            android:hint="@string/new_book_search_string"
-            android:paddingLeft="20dp"
-            android:paddingRight="40dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </EditText>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
