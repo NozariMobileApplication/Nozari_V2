@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -42,23 +43,17 @@ class Pages : AppCompatActivity() {
             }}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setItemViewCacheSize(200);
-//        recyclerView.setDrawingCacheEnabled(true);
-//        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-
-//        val factory =PageViewModelFactory(this.application, bookId)
-//        pageViewModel=ViewModelProviders.of(this,factory).get(PageViewModel::class.java)
-
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
         pageViewModel.allPages.observe(this, Observer { pages ->
             // Update the cached copy of the words in the adapter.
-            pages?.let { adapter.setPages(it) }
+            pages?.let { adapter.setPages(it) ;  mainImageView.setImageURI(Uri.parse(adapter.pages[0].uri)) }
         })
 
         pageViewModel.filter(bookId)
 
+//        while (adapter.set==false) // Wait for list to be gathered
+        if (adapter.pages.isNotEmpty()) mainImageView.setImageURI(Uri.parse(adapter.pages[0].uri))
+//        Toast.makeText(this, adapter.pages.size.toString(), Toast.LENGTH_LONG).show()
     }
 
     fun getPages(): Pages {
