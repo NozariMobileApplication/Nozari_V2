@@ -5,13 +5,18 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
+import com.nozariv2.OCRTranslationSplash
 import com.nozariv2.R
+import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -46,6 +51,41 @@ class NewBook : AppCompatActivity() {
             }
             finish()
         }
+    }
+
+    fun startImagePicker(view: View){
+
+        ImagePicker.with(this)
+            //.compress(1024)         //Final image size will be less than 1 MB(Optional)
+            //.maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
+            .start { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    //Image Uri will not be null for RESULT_OK
+                    val fileUri = data!!.data
+                    //imgProfile.setImageURI(fileUri)
+
+                    Log.i("fURI", fileUri.toString())
+
+                    //You can get File object from intent
+                    val file: File? = ImagePicker.getFile(data)
+
+                    //You can also get File Path from intent
+                    val filePath: String? = ImagePicker.getFilePath(data)
+
+                    Log.i("fPath", filePath)
+
+                    //TODO
+                    //!!! Over here you can use the file path to store the image in internal storage
+
+
+                } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                    Log.i("ERR",  ImagePicker.getError(data))
+                    Toast.makeText(applicationContext, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(applicationContext, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
+
     }
 
     companion object {
