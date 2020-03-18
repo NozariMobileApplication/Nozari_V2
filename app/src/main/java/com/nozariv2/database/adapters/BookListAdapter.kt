@@ -2,14 +2,18 @@ package com.nozariv2.database.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nozariv2.Pages
 import com.nozariv2.R
 import com.nozariv2.database.tables.Book
+import org.jetbrains.anko.doAsync
 
 class BookListAdapter internal constructor(context: Context) : RecyclerView.Adapter<BookListAdapter.BookViewHolder>(){
 
@@ -18,6 +22,7 @@ class BookListAdapter internal constructor(context: Context) : RecyclerView.Adap
 
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookItemView: TextView = itemView.findViewById(R.id.recyclerBookView)
+        val bookIcon: ImageView = itemView.findViewById(R.id.book_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -27,10 +32,16 @@ class BookListAdapter internal constructor(context: Context) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val current = books[position]
-        holder.bookItemView.text = current.bookId.toString()
+        holder.bookItemView.text = current.bookName
+
+        doAsync {
+            val bitmap = BitmapFactory.decodeFile(current.uri)
+            var resized = Bitmap.createScaledBitmap(bitmap, 150, 200, false)
+            holder.bookIcon.setImageBitmap(resized)
+        }
 
         holder.itemView.setOnClickListener(){
-            holder.bookItemView.text=current.bookName
+//            holder.bookItemView.text=current.bookName
             Utils.startActivity(holder.itemView.context, Pages::class.java,current.bookId )
         }
     }

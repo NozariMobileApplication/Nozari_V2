@@ -132,11 +132,11 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == newBookActivityRequestCode && resultCode == Activity.RESULT_OK) {
-
             var userId: String=""
             //var createDate = "Test Date"
             var createDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
             var bookName: String=""
+            var uri:String=""
 
             data?.getStringExtra(NewBook.BOOKNAME_REPLY)?.let {
                 bookName = it
@@ -147,11 +147,10 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
 
             if (!userId.equals("")&&!bookName.equals(""))
             {
-                var book = Book(0, userId, (createDate).toString(), bookName)
+                var book = Book(0, userId, (createDate).toString(), bookName,uri)
                 bookViewModel.insert(book)
                 Toast.makeText(applicationContext,R.string.book_created_string, Toast.LENGTH_LONG).show()
             }
-
         }
         else
         {

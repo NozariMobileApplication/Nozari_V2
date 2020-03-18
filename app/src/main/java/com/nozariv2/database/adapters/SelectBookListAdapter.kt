@@ -2,11 +2,14 @@ package com.nozariv2.database.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +18,7 @@ import com.nozariv2.books.Books
 import com.nozariv2.database.roomdatabase.PageRoomDatabase
 import com.nozariv2.database.tables.Book
 import com.nozariv2.database.tables.Page
+import org.jetbrains.anko.doAsync
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -28,6 +32,7 @@ class SelectBookListAdapter constructor(context: Context, imageUri:String) : Rec
 
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookItemView: TextView = itemView.findViewById(R.id.recyclerBookView)
+        val bookIcon: ImageView = itemView.findViewById(R.id.book_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -38,16 +43,18 @@ class SelectBookListAdapter constructor(context: Context, imageUri:String) : Rec
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val current = books[position]
-        holder.bookItemView.text = current.bookId.toString()
+        holder.bookItemView.text = current.bookName.toString()
+
+        doAsync {
+            val bitmap = BitmapFactory.decodeFile(current.uri)
+            var resized = Bitmap.createScaledBitmap(bitmap, 150, 200, false)
+            holder.bookIcon.setImageBitmap(resized)
+        }
 
         holder.itemView.setOnClickListener(){
-//            holder.bookItemView.text=current.bookName
-
             val page=Page(0,current.bookId, LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageUri,0)
-
             val pagesDoa = PageRoomDatabase.getDatabase(holder.itemView.context).pageDoa()
             pagesDoa.insertPage(page)
-
             Utils.startActivity(holder.itemView.context,Books::class.java )
         }
     }

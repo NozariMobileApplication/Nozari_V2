@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ import java.time.format.DateTimeFormatter
 class NewBook : AppCompatActivity() {
 
     private lateinit var editWordView: EditText
+    var uri:String=""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +35,16 @@ class NewBook : AppCompatActivity() {
         editWordView = findViewById(R.id.book_name_text_input)
         val button = findViewById<Button>(R.id.create_book_button)
 
+        val selectImageButton = findViewById<ImageView>(R.id.add_coverpage_button)
+        selectImageButton.setOnClickListener { startImagePicker() }
+
         button.setOnClickListener {
             val replyIntent = Intent()
             if (TextUtils.isEmpty(editWordView.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
-            } else {
+            }
+            if (uri.equals("")) Toast.makeText(applicationContext, "Please set cover image", Toast.LENGTH_SHORT).show()
+            else {
                 val bookName = editWordView.text.toString()
                 //val currentDate = "Test Date"
                 val currentDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
@@ -46,15 +53,17 @@ class NewBook : AppCompatActivity() {
                     var uid = currentFirebaseUser.uid
                     replyIntent.putExtra(USERID_REPLY,uid)
                 }
+                replyIntent.putExtra(URI_REPLY,uri)
                 replyIntent.putExtra(BOOKNAME_REPLY, bookName)
                 replyIntent.putExtra("date",currentDate)
                 setResult(Activity.RESULT_OK, replyIntent)
+                finish()
             }
-            finish()
+
         }
     }
 
-    fun startImagePicker(view: View){
+    fun startImagePicker(){
 
         ImagePicker.with(this)
             //.compress(1024)         //Final image size will be less than 1 MB(Optional)
@@ -77,6 +86,7 @@ class NewBook : AppCompatActivity() {
 
                     //TODO
                     //!!! Over here you can use the file path to store the image in internal storage
+                    uri=filePath.toString()
 
 
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -92,5 +102,6 @@ class NewBook : AppCompatActivity() {
     companion object {
         const val BOOKNAME_REPLY = "com.example.android.bookname.REPLY"
         const val USERID_REPLY = "com.example.android.userid.REPLY"
+        const val URI_REPLY = "com.example.android.uri.REPLY"
     }
 }

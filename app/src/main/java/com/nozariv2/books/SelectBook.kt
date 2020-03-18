@@ -59,11 +59,12 @@ class SelectBook : AppCompatActivity() {
         if (requestCode == newBookActivityRequestCode && resultCode == Activity.RESULT_OK) {
 
             var id: String
-            var userId: String=""
+            var userId: String="test"
             //val date = "Test Date"
             var date = LocalDate.parse(LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString(), DateTimeFormatter.ofPattern("dd-MM-yyyy"))
             var createDate = java.sql.Date.valueOf(date.toString());
             var bookName: String=""
+            var uri:String=""
 
             data?.getStringExtra(NewBook.BOOKNAME_REPLY)?.let {
                 bookName = it
@@ -72,9 +73,13 @@ class SelectBook : AppCompatActivity() {
                 userId = it
             }
 
+            data?.getStringExtra(NewBook.URI_REPLY)?.let {
+                uri = it
+            }
+
             if (!userId.equals("")&&!bookName.equals(""))
             {
-                var book = Book(0, userId, (createDate).toString(), bookName)
+                var book = Book(0, userId, (createDate).toString(), bookName,uri)
                 bookViewModel.insert(book)
                 Toast.makeText(applicationContext,R.string.book_created_string,Toast.LENGTH_LONG).show()
             }

@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/book_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/page_3" />

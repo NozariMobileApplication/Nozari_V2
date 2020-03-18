@@ -20,6 +20,9 @@ class Book (
     val createDate: String,
 
     @ColumnInfo(name = "name")
-    val bookName: String
+    val bookName: String,
+
+    @ColumnInfo(name = "uri")
+    val uri: String
 
 )

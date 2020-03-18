@@ -48,17 +48,9 @@ abstract class PageListAdapter internal constructor(context: Context) : Recycler
 
 
         doAsync {
-
             val bitmap = BitmapFactory.decodeFile(current.uri)
             var resized = Bitmap.createScaledBitmap(bitmap, 150, 200, false)
             holder.pageIcon.setImageBitmap(resized)
-
-//            setImageBitmap(BitmapFactory.decodeFile(intent.getStringExtra("fpath")))
-//            val source: ImageDecoder.Source =ImageDecoder.createSource(holder.pageIcon.context.getContentResolver(), Uri.parse(current.uri))
-//            val bitmap: Bitmap = ImageDecoder.decodeBitmap(source)
-//            var resized = Bitmap.createScaledBitmap(bitmap, 150, 200, false)
-//            holder.pageIcon.setImageBitmap(resized)
-//            holder.pageIcon.setImageURI(Uri.parse( current.uri))
         }
 
         holder.itemView.setOnClickListener(){
