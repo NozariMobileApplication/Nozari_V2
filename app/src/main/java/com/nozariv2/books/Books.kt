@@ -134,6 +134,7 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         if (requestCode == newBookActivityRequestCode && resultCode == Activity.RESULT_OK) {
 
             var userId: String=""
+            //var createDate = "Test Date"
             var createDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
             var bookName: String=""
 

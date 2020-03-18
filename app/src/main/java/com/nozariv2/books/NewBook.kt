@@ -39,6 +39,7 @@ class NewBook : AppCompatActivity() {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
                 val bookName = editWordView.text.toString()
+                //val currentDate = "Test Date"
                 val currentDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
                 val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
                 currentFirebaseUser?.let {

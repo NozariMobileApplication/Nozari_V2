@@ -60,6 +60,7 @@ class SelectBook : AppCompatActivity() {
 
             var id: String
             var userId: String=""
+            //val date = "Test Date"
             var date = LocalDate.parse(LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString(), DateTimeFormatter.ofPattern("dd-MM-yyyy"))
             var createDate = java.sql.Date.valueOf(date.toString());
             var bookName: String=""

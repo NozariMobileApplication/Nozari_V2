@@ -21,31 +21,14 @@ import com.nozariv2.database.viewModels.PageViewModel
 import org.jetbrains.anko.doAsync
 
 
-class Pages : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class Pages : AppCompatActivity() {
 
     private lateinit var pageViewModel: PageViewModel
     lateinit var mainImageView: ImageView
 
-    lateinit var toolbar: Toolbar
-    lateinit var drawerLayout: DrawerLayout
-    lateinit var navView: NavigationView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pages)
-
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        drawerLayout = findViewById(R.id.drawer_layout)
-        navView = findViewById(R.id.nav_view)
-
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, 0, 0
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        navView.setNavigationItemSelectedListener(this)
 
         mainImageView = findViewById(R.id.page_image)
         val bookId = intent.getStringExtra("BOOK_ID").toInt()
@@ -86,27 +69,5 @@ class Pages : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
     fun getImageView(): ImageView? {
         val imageViewForPage = findViewById<ImageView>(R.id.page_image)
         return imageViewForPage
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_profile -> {
-                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
-            }
-            R.id.nav_messages -> {
-                Toast.makeText(this, "Messages clicked", Toast.LENGTH_SHORT).show()
-            }
-            R.id.nav_friends -> {
-                Toast.makeText(this, "Friends clicked", Toast.LENGTH_SHORT).show()
-            }
-            R.id.nav_update -> {
-                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
-            }
-            R.id.nav_logout -> {
-                Toast.makeText(this, "Sign out clicked", Toast.LENGTH_SHORT).show()
-            }
-        }
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
     }
 }
