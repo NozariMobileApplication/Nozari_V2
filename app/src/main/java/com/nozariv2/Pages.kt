@@ -46,7 +46,8 @@ class Pages : AppCompatActivity() {
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
         pageViewModel.allPages.observe(this, Observer { pages ->
             // Update the cached copy of the words in the adapter.
-            pages?.let { adapter.setPages(it) ;  mainImageView.setImageURI(Uri.parse(adapter.pages[0].uri)) }
+            pages?.let { adapter.setPages(it) ;
+                if (adapter.pages.isNotEmpty()) mainImageView.setImageURI(Uri.parse(adapter.pages[0].uri)) }
         })
 
         pageViewModel.filter(bookId)

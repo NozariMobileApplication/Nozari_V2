@@ -63,7 +63,6 @@ class SelectBookListAdapter constructor(context: Context, imageUri:String) : Rec
     internal fun setBooks(books: List<Book>) {
         this.books = books
         notifyDataSetChanged()
-        Toast.makeText(this.context, "test", Toast.LENGTH_LONG).show()
     }
 
     override fun getItemCount() = books.size

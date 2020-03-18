@@ -152,7 +152,7 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
                 Toast.makeText(applicationContext,R.string.book_created_string, Toast.LENGTH_LONG).show()
             }
         }
-        else
+        else if(requestCode == newBookActivityRequestCode)
         {
             Toast.makeText(applicationContext,R.string.new_book_error_string, Toast.LENGTH_LONG).show()
         }

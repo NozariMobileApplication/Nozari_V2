@@ -23,14 +23,6 @@
             android:layout_height="match_parent"
             app:srcCompat="@drawable/page_3" />
 
-        <TextView
-            android:id="@+id/recyclerPageView_Text"
-            style="@style/book_view_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/holo_orange_light" />
-
     </RelativeLayout>
 
 

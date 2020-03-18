@@ -29,7 +29,6 @@ abstract class PageListAdapter internal constructor(context: Context) : Recycler
     lateinit var parent: ViewGroup
 
     inner class PageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val pageItemView: TextView = itemView.findViewById(R.id.recyclerPageView_Text)
         val pageIcon: ImageView = itemView.findViewById(R.id.recyclerPageView_Icon)
 //        val mainPageImage: ImageView = mainView.findViewById(R.id.page_image)
     }
