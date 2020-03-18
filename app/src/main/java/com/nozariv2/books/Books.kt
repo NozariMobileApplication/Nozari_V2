@@ -50,6 +50,8 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        toolbar.title = getString(R.string.BOOKS)
+
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
 

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +27,9 @@ import com.nozariv2.books.Books
 import com.nozariv2.cloudtranslate.TranslationRequest
 import com.nozariv2.cloudtranslate.TranslationViewModel
 import com.nozariv2.momo.MomoViewModel
+import technolifestyle.com.imageslider.FlipperLayout
+import technolifestyle.com.imageslider.FlipperView
+import technolifestyle.com.imageslider.pagetransformers.ZoomOutPageTransformer
 import java.io.File
 
 class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -33,9 +38,16 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
 
+    private lateinit var flipperLayout: FlipperLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        flipperLayout = findViewById(R.id.flipper_layout)
+        flipperLayout.addPageTransformer(false, ZoomOutPageTransformer())
+
+        setFlipperImages()
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -64,6 +76,42 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         val intent = Intent(this, Wallet::class.java)
         startActivity(intent)
     }
+
+    fun setFlipperImages(){
+
+        val flipperViewList: ArrayList<FlipperView> = ArrayList()
+
+        val view1 = FlipperView(baseContext).apply {
+            this.setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+            this.setImage(R.drawable.home_scroller_1) { imageView, image ->
+                imageView.setImageDrawable(image as Drawable)
+            }
+            this.setDescriptionBackgroundAlpha(0f)
+        }
+        flipperViewList.add(view1)
+        val view2 = FlipperView(baseContext).apply {
+            this.setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+            this.setImage(R.drawable.home_scroller_2) { imageView, image ->
+                imageView.setImageDrawable(image as Drawable)
+            }
+            this.setDescriptionBackgroundAlpha(0f)
+        }
+        flipperViewList.add(view2)
+        val view3 = FlipperView(baseContext).apply {
+            this.setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+            this.setImage(R.drawable.home_scroller_3) { imageView, image ->
+                imageView.setImageDrawable(image as Drawable)
+            }
+            this.setDescriptionBackgroundAlpha(0f)
+        }
+        flipperViewList.add(view3)
+        flipperLayout.showInnerPagerIndicator()
+        flipperLayout.startAutoCycle()
+        flipperLayout.startAutoCycle(5)
+        flipperLayout.addFlipperViewList(flipperViewList)
+    }
+
+
 
     fun openOCRCameraActivity(view: View){
         //if system os is Marshmallow or Above, we need to request runtime permission
