@@ -1,14 +1,21 @@
 package com.nozariv2
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
+import com.nozariv2.books.Books
+import java.io.File
 
 class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +39,50 @@ class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+    }
+
+    fun startBooksIntent(view: View){
+        val intent = Intent(this, Books::class.java)
+        startActivity(intent)
+    }
+
+    fun startImagePicker(view: View){
+
+        ImagePicker.with(this)
+            //.compress(1024)         //Final image size will be less than 1 MB(Optional)
+            //.maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
+            .start { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    //Image Uri will not be null for RESULT_OK
+                    val fileUri = data!!.data
+                    //imgProfile.setImageURI(fileUri)
+
+                    Log.i("fURI", fileUri.toString())
+
+                    //You can get File object from intent
+                    val file: File? = ImagePicker.getFile(data)
+
+                    //You can also get File Path from intent
+                    val filePath: String? = ImagePicker.getFilePath(data)
+
+                    Log.i("fPath", filePath)
+
+                    val intent = Intent(this, OCRTranslationSplash::class.java).apply {
+                        putExtra("IMAGE_URI", fileUri.toString())
+                        this.setData(fileUri)
+                    }
+
+                    startActivity(intent)
+
+
+                } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                    Log.i("ERR",  ImagePicker.getError(data))
+                    Toast.makeText(applicationContext, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(applicationContext, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -89,7 +89,7 @@
     <!--   Wallet Screen   -->
 
     <string name="wallet_instruction_text">In the wallet page, you can buy more SNAPS by depositing the correct amount of money specified below into the MoMo account of this phone number: "xxxx".
-        The number of snaps you have left is in the top right-hand corner inside the camera icon.</string>
+        \n\nThe number of snaps you have left is in the top right-hand corner inside the camera icon.</string>
 
     <!--   CameraX   -->
 

@@ -162,7 +162,6 @@ dependencies {
 
     //Async
     implementation "org.jetbrains.anko:anko-commons:0.10.0"
-
     implementation 'com.github.technolifestyle:AutoImageFlipper:1.6.0'
 
 }

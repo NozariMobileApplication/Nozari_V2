@@ -60,6 +60,11 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         startActivity(intent)
     }
 
+    fun startWalletIntent(view: View){
+        val intent = Intent(this, Wallet::class.java)
+        startActivity(intent)
+    }
+
     fun openOCRCameraActivity(view: View){
         //if system os is Marshmallow or Above, we need to request runtime permission
 
@@ -143,7 +148,6 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
                     val intent = Intent(this, OCRTranslationSplash::class.java).apply {
                         putExtra("IMAGE_URI", fileUri.toString())
-                        putExtra("language_selection", intent.getStringExtra("language_selection"))
                         this.setData(fileUri)
                     }
 
@@ -159,26 +163,6 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
             }
 
     }
-
-//No Longer neccessary because of the above code for ImagePicker***
-/*    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.i("onActivityResult", "${image_uri}" )
-
-
-        //called when image was captured from camera intent
-        if (resultCode == Activity.RESULT_OK){
-
-            val intent = Intent(this, OCRMoMoSplash::class.java).apply {
-                putExtra("IMAGE_URI", image_uri.toString())
-                putExtra("language_selection", intent.getStringExtra("language_selection"))
-                this.setData(image_uri)
-            }
-
-            startActivity(intent)
-        }
-    }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

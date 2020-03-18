@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -76,7 +77,7 @@ class OCRTranslationSplash : AppCompatActivity() {
 
                 Log.i("TS", transString)
 
-                mainViewModel = ViewModelProviders.of(this).get(TranslationViewModel::class.java)
+                mainViewModel = ViewModelProvider(this).get(TranslationViewModel::class.java)
                 val transReq = TranslationRequest(transString, "af", "en", "text")
                 mainViewModel!!.makeTranslationRequest(
                     "AIzaSyBRATktWsGcNiIQJdE-gyS50tIETZLg3aY",

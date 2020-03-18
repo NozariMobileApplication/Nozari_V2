@@ -13,6 +13,10 @@
     <color name="wallet_background">#B9E6F0</color>
     <color name="home_background">#B9E6F0</color>
 
+    <color name="text_colour">#95989A</color>
+    <color name="button_colour">#BCE0FD</color>
+
+
 
 
     <!-- CAMERA X IMPL -->

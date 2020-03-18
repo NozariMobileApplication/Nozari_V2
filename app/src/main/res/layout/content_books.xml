@@ -1,15 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Wallet"
+    tools:context=".books.Books"
     android:background="@color/wallet_background"
-
     >
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Light"
@@ -39,12 +39,12 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="0dp"
-                    android:gravity="center_horizontal"
                     android:fontFamily="@font/arial"
-                    android:textStyle="bold"
-                    android:text="WALLET"
+                    android:gravity="center_horizontal"
+                    android:text="BOOKS"
                     android:textColor="#95989A"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
 
                 <ImageView
@@ -92,66 +92,54 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/imageView8"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/book_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/books_searchbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/recyclerview_book_item" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/book_newbook_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:adjustViewBounds="true"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/books_searchbar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/searchbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/purchase_images" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="100dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="46dp"
-        android:src="@drawable/wallet_button_background"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="100dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="104dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="100dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="166dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button8"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="100dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="230dp"
-        android:background="#E91E63"
-        android:textColor="@android:color/transparent"
-        android:textColorHighlight="@android:color/transparent"
-        android:textColorHint="@android:color/transparent"
-        android:textColorLink="@android:color/transparent"
-        android:textCursorDrawable="@android:color/transparent"
-        android:visibility="invisible"
-        app:iconTint="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableStart="@drawable/search_icon"
+            android:drawableLeft="@drawable/search_icon"
+            android:gravity="center"
+            android:hint="@string/new_book_search_string"
+            android:paddingLeft="20dp"
+            android:paddingRight="40dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -192,7 +180,6 @@
                 android:layout_marginBottom="3dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/new_books_icon"
-                android:onClick="startBooksIntent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -206,6 +193,7 @@
                 android:layout_marginStart="16dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/new_wallet_icon"
+                android:onClick="startWalletIntent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -224,30 +212,5 @@
             app:tint="@color/bottom_bar_background" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <TextView
-        android:id="@+id/textView_wallet"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/arial"
-        android:text="@string/wallet_instruction_text"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageview_camera_wallet"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
-
-    <ImageView
-        android:id="@+id/imageview_camera_wallet"
-        android:layout_width="85dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-        app:srcCompat="@drawable/camera_wallet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,46 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".books.SelectBook"
-    android:background="@drawable/select_book_background">
-
-    <ImageView
-        android:id="@+id/selectbooks_menu_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/menu" />
-
-    <TextView
-        android:id="@+id/selectbooks_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/BOOKS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/selectbooks_menu_button"
-        />
+    android:background="@color/wallet_background">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/selectbooks_searchbar"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="40dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="56dp"
         android:layout_marginRight="20dp"
+        android:background="@drawable/searchbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectbooks_header"
-        android:background="@drawable/searchbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/select_book_search_string"
-            android:background="@null"/>
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/select_book_search_string" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
