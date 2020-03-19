@@ -39,6 +39,8 @@ class Login : AppCompatActivity() {
 
         val fAuth = FirebaseAuth.getInstance()
 
+        fAuth.signOut()
+
         login.setOnClickListener {
 
             val email: String = textEmail.text.toString().trim()

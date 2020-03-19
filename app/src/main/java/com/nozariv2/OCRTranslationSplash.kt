@@ -9,9 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.document.FirebaseVisionDocumentText
+import com.nozariv2.Firebase.User
 import com.nozariv2.cloudtranslate.TranslationRequest
 import com.nozariv2.cloudtranslate.TranslationViewModel
 import java.io.*
@@ -24,12 +27,19 @@ class OCRTranslationSplash : AppCompatActivity() {
 
     var mainViewModel: TranslationViewModel? = null
     var bitmapURI = null
+    var fAuth = FirebaseAuth.getInstance()
+    var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ocrtranslation_splash)
 
         Log.i("URI", intent.getStringExtra("IMAGE_URI"))
+
+/*        val docRef = db.collection("users").document(fAuth.currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val user = documentSnapshot.toObject<User>()
+        }*/
 
         val imageURI = intent.data
 
@@ -77,8 +87,9 @@ class OCRTranslationSplash : AppCompatActivity() {
 
                 Log.i("TS", transString)
 
+
                 mainViewModel = ViewModelProvider(this).get(TranslationViewModel::class.java)
-                val transReq = TranslationRequest(transString, "af", "en", "text")
+                val transReq = TranslationRequest(transString, "zu", "en", "text")
                 mainViewModel!!.makeTranslationRequest(
                     "AIzaSyBRATktWsGcNiIQJdE-gyS50tIETZLg3aY",
                     transReq

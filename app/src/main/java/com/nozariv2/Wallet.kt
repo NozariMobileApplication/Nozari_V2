@@ -87,20 +87,22 @@ class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_profile -> {
-                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_home -> {
+                val intent = Intent(this, Home::class.java)
+                startActivity(intent)
             }
-            R.id.nav_messages -> {
-                Toast.makeText(this, "Messages clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_books -> {
+                val intent = Intent(this, Books::class.java)
+                startActivity(intent)
             }
-            R.id.nav_friends -> {
-                Toast.makeText(this, "Friends clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_wallet -> {
+                //Do nothing here already
             }
-            R.id.nav_update -> {
-                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_help -> {
+                Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show()
             }
-            R.id.nav_logout -> {
-                Toast.makeText(this, "Sign out clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_quicklinks -> {
+                Toast.makeText(this, "Quick Links clicked", Toast.LENGTH_SHORT).show()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
