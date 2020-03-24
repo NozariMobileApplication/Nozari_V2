@@ -176,6 +176,7 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             }
             R.id.nav_wallet -> {
                 val intent = Intent(this, Wallet::class.java)
+                //fake push
                 startActivity(intent)
             }
             R.id.nav_help -> {
