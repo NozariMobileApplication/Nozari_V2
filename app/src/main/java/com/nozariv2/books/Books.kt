@@ -15,6 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,11 +34,15 @@ import com.nozariv2.Wallet
 import com.nozariv2.database.adapters.BookListAdapter
 import com.nozariv2.database.tables.Book
 import com.nozariv2.database.viewModels.BookViewModel
+import com.nozariv2.databinding.ActivityBooksBinding
+import com.nozariv2.databinding.ActivitySelectbookBinding
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var binding: ActivityBooksBinding
 
     private lateinit var bookViewModel: BookViewModel
     private val newBookActivityRequestCode = 1
@@ -50,7 +56,7 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE)
-        setContentView(R.layout.activity_books)
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_books)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -83,6 +89,8 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             // Update the cached copy of the words in the adapter.
             books?.let { adapter.setBooks(it) }
         })
+
+        binding.booksContent.booksSearchbar.addTextChangedListener { text -> bookViewModel.searchNameChanged(text.toString()) }
 
 
     }
