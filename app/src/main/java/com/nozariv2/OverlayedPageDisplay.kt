@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import com.nozariv2.books.SelectBook
@@ -14,6 +15,9 @@ class OverlayedPageDisplay : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE)
         setContentView(R.layout.activity_overlayed_page_display)
 
         findViewById<ImageView>(R.id.overlayedPageDisplayImageView).apply {

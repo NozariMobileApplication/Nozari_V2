@@ -14,15 +14,20 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProviders
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.nozariv2.Firebase.User
 import com.nozariv2.books.Books
 import com.nozariv2.cloudtranslate.TranslationRequest
 import com.nozariv2.cloudtranslate.TranslationViewModel
@@ -40,8 +45,13 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
     private lateinit var flipperLayout: FlipperLayout
 
+    val db = Firebase.firestore
+    val fAuth = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE)
         setContentView(R.layout.activity_home)
 
         flipperLayout = findViewById(R.id.flipper_layout)
@@ -61,6 +71,23 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+
+
+        val docRef = db.collection("users").document(fAuth.currentUser!!.uid)
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val user = documentSnapshot.toObject<User>()
+
+
+
+            Log.i("Full Name", user!!.fullName)
+            Log.i("Email", user!!.email)
+            Log.i("Language Selection", user!!.languageSelection)
+            Log.i("Phone Number", user!!.phoneNumber)
+            Log.i("Tokens", "" + user!!.tokens)
+        }
+
+
+
     }
 
     private val PERMISSION_CODE = 1000

@@ -85,11 +85,11 @@ class Register : AppCompatActivity() {
 
                         val documentReference: DocumentReference = fStore.collection("users").document(user!!.uid)
                         val userData: HashMap<String, Any> = HashMap()
-                        userData.put("FullName", fullName)
-                        userData.put("Email", email)
-                        userData.put("PhoneNumber", phoneNumber)
-                        userData.put("LanguageSelection", languageSelection)
-                        userData.put("Tokens", 0)
+                        userData.put("fullName", fullName)
+                        userData.put("email", email)
+                        userData.put("phoneNumber", phoneNumber)
+                        userData.put("languageSelection", languageSelection)
+                    userData.put("tokens", 0)
                         documentReference.set(userData)
                             .addOnSuccessListener(this) {
 

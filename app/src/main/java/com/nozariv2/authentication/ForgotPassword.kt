@@ -44,7 +44,7 @@ class ForgotPassword : AppCompatActivity() {
                     Toast.makeText(baseContext, "Password reset email has been sent",
                         Toast.LENGTH_LONG).show()
 
-                    startActivity(Intent(this@ForgotPassword, Home::class.java))
+                    startActivity(Intent(this@ForgotPassword, Login::class.java))
 
                 } else {
 
