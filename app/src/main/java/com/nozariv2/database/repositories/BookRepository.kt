@@ -1,9 +1,9 @@
 package com.nozariv2.database.repositories
 
 import androidx.lifecycle.LiveData
-import com.nozariv2.books.Books
 import com.nozariv2.database.daos.BookDoa
 import com.nozariv2.database.tables.Book
+
 
 class BookRepository(private  val bookDoa: BookDoa) {
 
@@ -12,4 +12,10 @@ class BookRepository(private  val bookDoa: BookDoa) {
     suspend fun insert(book: Book){
         bookDoa.insertBook(book)
     }
+
+    fun searchBooks(string:String):LiveData<List<Book>> {
+        if (string.isEmpty()) return  bookDoa.getAlphabetizedBooks()
+        return bookDoa.filterBooks("%$string%")
+    }
+
 }

@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,18 +20,21 @@ import com.nozariv2.R
 import com.nozariv2.database.adapters.SelectBookListAdapter
 import com.nozariv2.database.tables.Book
 import com.nozariv2.database.viewModels.BookViewModel
+import com.nozariv2.databinding.ActivitySelectbookBinding
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class SelectBook : AppCompatActivity() {
 
+    private lateinit var binding: ActivitySelectbookBinding
+
     private lateinit var bookViewModel: BookViewModel
     private val newBookActivityRequestCode = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_selectbook)
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_selectbook)
 
         val imageURI = intent.getStringExtra("IMAGE_PATH")
 
@@ -49,6 +54,8 @@ class SelectBook : AppCompatActivity() {
             val intent = Intent(this, NewBook::class.java)
             startActivityForResult(intent, newBookActivityRequestCode)
         }
+
+        binding.selectbooksSearchbar.addTextChangedListener { text -> bookViewModel.searchNameChanged(text.toString()) }
 
     }
 
@@ -85,10 +92,7 @@ class SelectBook : AppCompatActivity() {
             }
 
         }
-        else
-        {
-            Toast.makeText(applicationContext,R.string.new_book_error_string,Toast.LENGTH_LONG).show()
-        }
+        else{Toast.makeText(applicationContext,R.string.new_book_error_string,Toast.LENGTH_LONG).show()}
     }
 }
 

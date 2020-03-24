@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".books.SelectBook"
-    android:background="@color/wallet_background">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/selectbooks_searchbar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/searchbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/wallet_background"
+        tools:context=".books.SelectBook">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
+
+        <EditText
+            android:id="@+id/selectbooks_searchbar"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/searchbar"
+            android:drawableStart="@drawable/search_icon"
+            android:drawableLeft="@drawable/search_icon"
             android:gravity="center"
-            android:hint="@string/select_book_search_string" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/select_book_search_string"
+            android:paddingLeft="20dp"
+            android:paddingRight="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/selectbook_recyclerview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectbooks_searchbar"
-        tools:listitem="@layout/recyclerview_book_item" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selectbook_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectbooks_searchbar"
+            tools:listitem="@layout/recyclerview_book_item" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newbook_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginRight="40dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_white_24dp" />
-
-
-    <!--        android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/picture" />-->
-<!--        <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/picture_pressed" />-->
-<!--        <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/picture_pressed" />-->
-<!--        <item android:="@drawable/picture"-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/newbook_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_add_white_24dp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--        android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/picture" />-->
+        <!--        <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/picture_pressed" />-->
+        <!--        <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/picture_pressed" />-->
+        <!--        <item android:="@drawable/picture"-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

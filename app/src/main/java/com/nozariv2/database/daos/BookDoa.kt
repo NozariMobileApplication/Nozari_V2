@@ -18,6 +18,13 @@ interface BookDoa{
     fun getAlphabetizedBooks(): LiveData<List<Book>>
 
     /**
+     * Get list of books.
+     * @return list of books for specified name from the table in ascending order by name
+     */
+    @Query("SELECT * from books_table WHERE LOWER(name) LIKE +LOWER(:bookName)  ORDER BY name ASC")
+    fun filterBooks(bookName:String): LiveData<List<Book>>
+
+    /**
      * Insert a book into the database. If the book already exists, replace it.
      * @param book the book to be inserted.
      */

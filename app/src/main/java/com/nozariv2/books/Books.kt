@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -25,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.nozariv2.Home
 import com.nozariv2.OCRTranslationSplash
 import com.nozariv2.R
 import com.nozariv2.Wallet
@@ -47,15 +45,10 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE)
         setContentView(R.layout.activity_books)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        toolbar.title = getString(R.string.BOOKS)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
@@ -167,22 +160,20 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_home -> {
-                val intent = Intent(this, Home::class.java)
-                startActivity(intent)
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
             }
-            R.id.nav_books -> {
-                //Do nothing, here already
+            R.id.nav_messages -> {
+                Toast.makeText(this, "Messages clicked", Toast.LENGTH_SHORT).show()
             }
-            R.id.nav_wallet -> {
-                val intent = Intent(this, Wallet::class.java)
-                startActivity(intent)
+            R.id.nav_friends -> {
+                Toast.makeText(this, "Friends clicked", Toast.LENGTH_SHORT).show()
             }
-            R.id.nav_help -> {
-                Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_update -> {
+                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
             }
-            R.id.nav_quicklinks -> {
-                Toast.makeText(this, "Quick Links clicked", Toast.LENGTH_SHORT).show()
+            R.id.nav_logout -> {
+                Toast.makeText(this, "Sign out clicked", Toast.LENGTH_SHORT).show()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

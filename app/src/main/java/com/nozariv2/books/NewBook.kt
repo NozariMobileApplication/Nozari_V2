@@ -2,6 +2,9 @@ package com.nozariv2.books
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -25,6 +28,7 @@ import java.time.format.DateTimeFormatter
 class NewBook : AppCompatActivity() {
 
     private lateinit var editWordView: EditText
+    private lateinit var coverPage: ImageView
     var uri:String=""
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -33,6 +37,7 @@ class NewBook : AppCompatActivity() {
         setContentView(R.layout.activity_new_book)
 
         editWordView = findViewById(R.id.book_name_text_input)
+        coverPage=findViewById(R.id.add_coverpage_button)
         val button = findViewById<Button>(R.id.create_book_button)
 
         val selectImageButton = findViewById<ImageView>(R.id.add_coverpage_button)
@@ -44,7 +49,7 @@ class NewBook : AppCompatActivity() {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
                 Toast.makeText(applicationContext, "Please enter book name", Toast.LENGTH_SHORT).show()
             }
-            if (uri.equals("")) Toast.makeText(applicationContext, "Please set cover image", Toast.LENGTH_SHORT).show()
+            else if (uri.equals("")) Toast.makeText(applicationContext, "Please set cover image", Toast.LENGTH_SHORT).show()
             else {
                 val bookName = editWordView.text.toString()
                 //val currentDate = "Test Date"
@@ -88,6 +93,9 @@ class NewBook : AppCompatActivity() {
                     //TODO
                     //!!! Over here you can use the file path to store the image in internal storage
                     uri=filePath.toString()
+                    val bitmap = BitmapFactory.decodeFile(uri)
+                    var resized = Bitmap.createScaledBitmap(bitmap, 200, 250, false)
+                    coverPage.setImageBitmap(resized)
 
 
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
