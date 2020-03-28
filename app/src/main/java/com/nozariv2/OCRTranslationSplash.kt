@@ -5,6 +5,7 @@ import android.graphics.*
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +22,6 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-
 
 class OCRTranslationSplash : AppCompatActivity() {
 
@@ -54,21 +54,22 @@ class OCRTranslationSplash : AppCompatActivity() {
             }
     }
 
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        Toast.makeText(this,"Please wait...", Toast.LENGTH_SHORT).show()
+    }
+
+
     fun ocrImageWithoutLines(image: FirebaseVisionImage) {
 
         //From Google
         val detector = FirebaseVision.getInstance().cloudDocumentTextRecognizer
-
         val mutableBitmap = image.bitmap.copy(image.bitmap.config, true)
         if(mutableBitmap==null){
             Log.i("TAG", "img is null")
         }
 
         val canvas = Canvas(mutableBitmap)
-
-
-        //val imageView = findViewById<ImageView>(R.id.imageTesterImageView)
-        //imageView.setImageBitmap(mutableBitmap)
 
         detector.processImage(image)
             .addOnSuccessListener { firebaseVisionText ->
@@ -118,6 +119,7 @@ class OCRTranslationSplash : AppCompatActivity() {
                         val intent = Intent(this, OverlayedPageDisplay::class.java).apply {
                             putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
                             putExtra("fpath", path)
+                            this.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
                             data = (intent.data)
                             putExtra("language_selection", intent.getStringExtra("language_selection"))
                         }
@@ -136,10 +138,11 @@ class OCRTranslationSplash : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
 
+
+
                 //TODO
 
             }
-
     }
 
     fun writeTRBlocksOntoBitmap(trBlocks: ArrayList<String>, fbVisionText: FirebaseVisionDocumentText, canvas: Canvas, bitmap: Bitmap) {
@@ -302,18 +305,10 @@ class OCRTranslationSplash : AppCompatActivity() {
 
     }
 
-    private fun saveReceivedImage(
-        imageBitmap: Bitmap,
-        //numberOfBytes: Int,
-        imageName: String
-    ) : String{
-
+    private fun saveReceivedImage(imageBitmap: Bitmap, imageName: String) : String {
         var filePath : String = ""
-
         try {
-            //val bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, numberOfBytes)
-            val path =
-                File(this.getFilesDir(), "Pixilate" + File.separator.toString() + "Images")
+            val path = File(this.getFilesDir(), "Pixilate" + File.separator.toString() + "Images")
             if (!path.exists()) {
                 path.mkdirs()
             }
@@ -332,93 +327,4 @@ class OCRTranslationSplash : AppCompatActivity() {
         }
         return filePath
     }
-
 }
-
-
-    //OLD METHODS!
-/*
-    private fun managedImageFromUri(selectedImage: Uri) : Bitmap? {
-        var bitmap : Bitmap
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,selectedImage)
-            return bitmap
-
-        }catch (e:Exception){
-            //TODO
-            e.printStackTrace()
-            return null
-        }
-    }
-
-    private fun onDeviceRecognizeText(bitmap: Bitmap?) {
-        val image: FirebaseVisionImage = FirebaseVisionImage.fromBitmap(bitmap!!)
-
-*//*        val detector = FirebaseVision.getInstance()
-            .cloudDocumentTextRecognizer
-        val options = FirebaseVisionCloudDocumentRecognizerOptions.Builder()
-            .setLanguageHints(listOf("en"))
-            .build()
-        val detector = FirebaseVision.getInstance()
-            .getCloudDocumentTextRecognizer(options)*//*
-
-        val detector: FirebaseVisionTextRecognizer = FirebaseVision.getInstance().cloudTextRecognizer
-        var result: Task<FirebaseVisionText> = detector.processImage(image)
-            .addOnSuccessListener {
-
-                Log.i("text", it.text)
-                GlobalScope.launch{ makeTranslationRequest(it.text) }
-
-            }
-            .addOnFailureListener { p0 -> Toast.makeText(this@OCRTranslationSplash, p0.message, Toast.LENGTH_LONG).show()
-                Log.i("text", p0.message)}
-    }
-
-    suspend fun makeTranslationRequest(text: String){
-
-        val newText = text.replace("\n", " ")
-        val newNewtext = newText.replace(".", "_")
-
-        //val result = slowFetch(newNewtext)
-
-        withContext(Dispatchers.Main){
-            launchOCRCameraIntent()
-        }
-    }
-
-    suspend fun makeTranslationRequestNew(text: String){
-        //val translate = Translate.Builder().build()
-         GlobalScope.launch{ withContext(Dispatchers.IO){
-
-            try {
-
-               // translate.refreshTokenKey()
-                //val translateResult = translate.translate("", "en", "zu")
-
-                launchOCRCameraIntent()
-
-            } catch (e: Exception){
-
-                Log.i("exception", e.toString())
-
-            }
-        } }
-
-    }
-
-    private fun launchOCRCameraIntent(){
-        val intent = Intent(this, ImageTester::class.java).apply {
-            //putExtra("translated_text", text)
-            data = (intent.data)
-        }
-        startActivity(intent)
-    }
-
-    private fun launchOCRCameraIntentOld(text: String){
-        val intent = Intent(this, OCRCameraNew::class.java).apply {
-            putExtra("translated_text", text)
-            this.setData(intent.data)
-        }
-        startActivity(intent)
-    }*/
-

@@ -43,7 +43,8 @@
         <activity android:name=".authentication.Register" />
         <activity
             android:name=".books.Books"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".authentication.Login">
 
         </activity>
         <activity android:name=".momo.OCRMoMoSplash" />
@@ -61,12 +62,13 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:parentActivityName=".authentication.Login"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".authentication.Register"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nozariv2.authentication.Login" />
+                android:value="com.nozariv2.authentication.Register" />
         </activity>
         <activity
             android:name=".CameraX"

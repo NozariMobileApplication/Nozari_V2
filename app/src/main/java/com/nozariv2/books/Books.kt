@@ -58,6 +58,7 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             WindowManager.LayoutParams.FLAG_SECURE)
         binding= DataBindingUtil.setContentView(this,R.layout.activity_books)
 
+
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -91,6 +92,8 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         })
 
         binding.booksContent.booksSearchbar.addTextChangedListener { text -> bookViewModel.searchNameChanged(text.toString()) }
+
+
 
 
     }

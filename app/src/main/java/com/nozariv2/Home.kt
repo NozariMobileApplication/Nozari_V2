@@ -21,6 +21,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +30,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.nozariv2.Firebase.User
+import com.nozariv2.Firebase.UsersViewModel
 import com.nozariv2.books.Books
 import com.nozariv2.cloudtranslate.TranslationRequest
 import com.nozariv2.cloudtranslate.TranslationViewModel
@@ -42,11 +45,17 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
+    lateinit var user: User
+
+    var mainViewModel: UsersViewModel? = null
 
     private lateinit var flipperLayout: FlipperLayout
 
     val db = Firebase.firestore
     val fAuth = FirebaseAuth.getInstance()
+    private var zeroToken = false
+    private var userConnected = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +81,7 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
-
-        val docRef = db.collection("users").document(fAuth.currentUser!!.uid)
+/*        val docRef = db.collection("users").document(fAuth.currentUser!!.uid)
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val user = documentSnapshot.toObject<User>()
 
@@ -84,8 +92,42 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
             Log.i("Language Selection", user!!.languageSelection)
             Log.i("Phone Number", user!!.phoneNumber)
             Log.i("Tokens", "" + user!!.tokens)
-        }
+        }*/
 
+
+
+
+        mainViewModel = ViewModelProvider(this).get(UsersViewModel::class.java)
+        mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer { user ->
+
+            Log.i("USRR", user.toString())
+
+            if(user.fullName.equals("Failed")){
+                Toast.makeText(this,"Failed to load your data. Please ensure you have an internet connection and try again.", Toast.LENGTH_LONG).show()
+                userConnected = false
+            } else {
+                userConnected = true
+            }
+
+            if(user.tokens==0){
+                zeroToken = true
+            } else {
+                zeroToken = false
+            }
+
+            mainViewModel!!.useUserToken(fAuth.currentUser!!.uid, user.tokens!!)
+        })
+
+        mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer { user ->
+
+            Log.i("USRT", user.tokens!!.toString())
+
+        })
+
+
+
+
+        //Log.i("USR", user.toString())
 
 
     }
@@ -93,6 +135,11 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
     var image_uri: Uri? = Uri.EMPTY
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Toast.makeText(this,"back key is pressed", Toast.LENGTH_SHORT).show()
+    }
 
     fun startBooksIntent(view: View){
         val intent = Intent(this, Books::class.java)
@@ -168,6 +215,7 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         //called when user presses ALLOW or DENY from Permission Request Popup
         when(requestCode){
             PERMISSION_CODE -> {
@@ -223,11 +271,11 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
                     val intent = Intent(this, OCRTranslationSplash::class.java).apply {
                         putExtra("IMAGE_URI", fileUri.toString())
+                        this.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
                         this.setData(fileUri)
                     }
 
                     startActivity(intent)
-
 
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
                     Log.i("ERR",  ImagePicker.getError(data))

@@ -52,6 +52,7 @@ class SelectBook : AppCompatActivity() {
         val fab = findViewById<FloatingActionButton>(R.id.newbook_fab)
         fab.setOnClickListener {
             val intent = Intent(this, NewBook::class.java)
+            //intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
             startActivityForResult(intent, newBookActivityRequestCode)
         }
 
