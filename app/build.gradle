@@ -181,4 +181,3 @@ dependencies {
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
 }
-

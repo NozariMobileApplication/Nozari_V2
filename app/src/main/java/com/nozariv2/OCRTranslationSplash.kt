@@ -16,6 +16,7 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.document.FirebaseVisionDocumentText
 import com.nozariv2.Firebase.User
+import com.nozariv2.Firebase.UsersViewModel
 import com.nozariv2.cloudtranslate.TranslationRequest
 import com.nozariv2.cloudtranslate.TranslationViewModel
 import java.io.*
@@ -30,11 +31,16 @@ class OCRTranslationSplash : AppCompatActivity() {
     var fAuth = FirebaseAuth.getInstance()
     var db = FirebaseFirestore.getInstance()
 
+    var userMainViewModel: UsersViewModel? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ocrtranslation_splash)
 
         Log.i("URI", intent.getStringExtra("IMAGE_URI"))
+
+        userMainViewModel = ViewModelProvider(this).get(UsersViewModel::class.java)
 
 /*        val docRef = db.collection("users").document(fAuth.currentUser!!.uid)
         docRef.get().addOnSuccessListener { documentSnapshot ->
@@ -77,9 +83,38 @@ class OCRTranslationSplash : AppCompatActivity() {
                 val resultText = firebaseVisionText.text
 
                 Log.i("Text", firebaseVisionText.text)
+                Log.i("isEmpty", "" + firebaseVisionText.text.isEmpty())
+
+                if(firebaseVisionText.text.isEmpty()){
+
+                    Log.i("IN", "Im in here")
+                    val path = saveReceivedImage(mutableBitmap, SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()))
+
+                    userMainViewModel!!.useUserToken(fAuth.currentUser!!.uid).observe(this, Observer { transactionSuccessful ->
+                        if(transactionSuccessful){
+                            val intent = Intent(this, OverlayedPageDisplay::class.java).apply {
+                                putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
+                                putExtra("fpath", path)
+                                data = (intent.data)
+                                this.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                                putExtra("language_selection", intent.getStringExtra("language_selection"))
+                            }
+                            finish()
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this,"Snap transaction failed. Please check your internet connection & try again.", Toast.LENGTH_LONG).show()
+                            finish()
+                        }
+                    })
+
+                } else {
 
                 val trBlocks: ArrayList<String> = ArrayList()
                 var transString = ""
+
+                Log.i("Err", "fVT" + firebaseVisionText.blocks.size)
+                Log.i("Err", "fVT" + firebaseVisionText.text)
+
                 transString += firebaseVisionText.blocks[0].text
 
                 for (i in 1..firebaseVisionText.blocks.size - 1) {
@@ -115,16 +150,22 @@ class OCRTranslationSplash : AppCompatActivity() {
                         //mutableBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
                         //val imageBytes: ByteArray = baos.toByteArray()
                         val path = saveReceivedImage(mutableBitmap, SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()))
-
-                        val intent = Intent(this, OverlayedPageDisplay::class.java).apply {
-                            putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
-                            putExtra("fpath", path)
-                            this.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                            data = (intent.data)
-                            putExtra("language_selection", intent.getStringExtra("language_selection"))
-                        }
-                        startActivity(intent)
-
+                        userMainViewModel!!.useUserToken(fAuth.currentUser!!.uid).observe(this, Observer { transactionSuccessful ->
+                            if(transactionSuccessful){
+                                val intent = Intent(this, OverlayedPageDisplay::class.java).apply {
+                                    putExtra("IMAGE_URI", intent.getStringExtra("IMAGE_URI"))
+                                    putExtra("fpath", path)
+                                    data = (intent.data)
+                                    this.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                                    putExtra("language_selection", intent.getStringExtra("language_selection"))
+                                }
+                                finish()
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(this,"Snap transaction failed. Please check your internet connection & try again.", Toast.LENGTH_LONG).show()
+                                finish()
+                            }
+                        })
                         //imageView.setImageBitmap(mutableBitmap)
                     } else {
                         Log.i("Tr", "Translation failure")
@@ -135,6 +176,7 @@ class OCRTranslationSplash : AppCompatActivity() {
 
                 Log.i("TT", trBlocks.toString())
 
+            }
             }
             .addOnFailureListener { e ->
 
@@ -264,10 +306,10 @@ class OCRTranslationSplash : AppCompatActivity() {
 
 
 
-            val pixel1 = bitmap.getPixel(block.boundingBox!!.left, block.boundingBox!!.top)
-            val pixel2 = bitmap.getPixel(block.boundingBox!!.left, block.boundingBox!!.bottom)
-            val pixel3 = bitmap.getPixel(block.boundingBox!!.right, block.boundingBox!!.top)
-            val pixel4 = bitmap.getPixel(block.boundingBox!!.right, block.boundingBox!!.bottom)
+            val pixel1 = bitmap.getPixel(zeroIfNegative(block.boundingBox!!.left), zeroIfNegative(block.boundingBox!!.top))
+            val pixel2 = bitmap.getPixel(zeroIfNegative(block.boundingBox!!.left), zeroIfNegative(block.boundingBox!!.bottom))
+            val pixel3 = bitmap.getPixel(zeroIfNegative(block.boundingBox!!.right), zeroIfNegative(block.boundingBox!!.top))
+            val pixel4 = bitmap.getPixel(zeroIfNegative(block.boundingBox!!.right), zeroIfNegative(block.boundingBox!!.bottom))
 
             val R = ((Color.red(pixel1) + Color.red(pixel2) + Color.red(pixel3) + Color.red(pixel4))/4).toInt()
             val G = ((Color.green(pixel1) + Color.green(pixel2) + Color.green(pixel3) + Color.green(pixel4))/4).toInt()
@@ -303,6 +345,14 @@ class OCRTranslationSplash : AppCompatActivity() {
 
 
 
+    }
+
+    fun zeroIfNegative(num : Int) : Int {
+        return if(num<=0){
+            0
+        } else {
+            num
+        }
     }
 
     private fun saveReceivedImage(imageBitmap: Bitmap, imageName: String) : String {

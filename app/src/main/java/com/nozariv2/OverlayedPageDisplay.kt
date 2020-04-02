@@ -52,7 +52,7 @@ class OverlayedPageDisplay : AppCompatActivity() {
         val intent = Intent(this, SelectBook::class.java).apply {
             putExtra("IMAGE_PATH", intent.getStringExtra("fpath"))
             this.setData(intent.data)
-            this.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+            //this.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
         }
         startActivity(intent)
     }

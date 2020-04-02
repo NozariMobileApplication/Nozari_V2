@@ -1,5 +1,6 @@
 package com.nozariv2.database.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -13,9 +14,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.nozariv2.R
 import com.nozariv2.books.Books
+import com.nozariv2.books.SelectBook
 import com.nozariv2.database.roomdatabase.PageRoomDatabase
 import com.nozariv2.database.tables.Book
 import com.nozariv2.database.tables.Page
@@ -56,6 +59,7 @@ class SelectBookListAdapter constructor(context: Context, imageUri:String) : Rec
             val page=Page(0,current.bookId, LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageUri,0)
             val pagesDoa = PageRoomDatabase.getDatabase(holder.itemView.context).pageDoa()
             pagesDoa.insertPage(page)
+            (context as Activity).finish()
             Utils.startActivity(holder.itemView.context,Books::class.java )
         }
     }

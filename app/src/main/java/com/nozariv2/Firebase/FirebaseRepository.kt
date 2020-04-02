@@ -9,6 +9,8 @@ import com.google.firebase.ktx.Firebase
 class FirebaseRepository {
 
     private var mutableLiveData = MutableLiveData<User>()
+    private var mutableLiveDataTokenResponse = MutableLiveData<Boolean>()
+    private var mutableLiveDataWriteResponse = MutableLiveData<Boolean>()
     val failedUser = User("Failed", "Failed", "Failed", "Failed",0)
     val db = Firebase.firestore
 
@@ -34,14 +36,40 @@ class FirebaseRepository {
         return mutableLiveData
     }
 
-    fun useUserToken(uuid : String, currentTokens : Int){
-        val docRef = db.collection("users").document(uuid)
-        docRef
-            .update("tokens", currentTokens - 1)
-            .addOnSuccessListener {
-                Log.d("FBase", "DocumentSnapshot successfully updated!")
+    fun writeNewUserData(uuid: String, fullName: String, email: String, phoneNumber: String, languageSelection: String) : MutableLiveData<Boolean>{
+        val user = hashMapOf(
+            "email" to email,
+            "fullName" to fullName,
+            "languageSelection" to languageSelection,
+            "phoneNumber" to phoneNumber,
+            "tokens" to 0)
+
+        db.collection("users").document(uuid)
+            .set(user)
+            .addOnSuccessListener { Log.d("SUCC", "DocumentSnapshot successfully written!")
+                mutableLiveDataWriteResponse.value = true
             }
-            .addOnFailureListener { e -> Log.w("FBase", "Error updating document", e) }
+            .addOnFailureListener { e -> Log.w("ERR", "Error writing document", e)
+                mutableLiveDataWriteResponse.value = false
+            }
+        return mutableLiveDataWriteResponse
+    }
+
+
+
+    fun useUserToken(uuid : String) :  MutableLiveData<Boolean>{
+        val sfDocRef = db.collection("users").document(uuid)
+
+        db.runTransaction { transaction ->
+            val snapshot = transaction.get(sfDocRef)
+            val newTokens = snapshot.getDouble("tokens")!! - 1
+            transaction.update(sfDocRef, "tokens", newTokens)
+        }.addOnSuccessListener { Log.d("SUCC", "Transaction success!")
+            mutableLiveDataTokenResponse.value = true}
+         .addOnFailureListener { e -> Log.w("ERR", "Transaction failure.", e)
+             mutableLiveDataTokenResponse.value = false}
+
+        return mutableLiveDataTokenResponse
     }
 
 }

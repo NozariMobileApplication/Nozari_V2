@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,8 +15,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -26,15 +27,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import com.nozariv2.Firebase.User
 import com.nozariv2.Firebase.UsersViewModel
+import com.nozariv2.authentication.Login
 import com.nozariv2.books.Books
-import com.nozariv2.cloudtranslate.TranslationRequest
-import com.nozariv2.cloudtranslate.TranslationViewModel
-import com.nozariv2.momo.MomoViewModel
 import technolifestyle.com.imageslider.FlipperLayout
 import technolifestyle.com.imageslider.FlipperView
 import technolifestyle.com.imageslider.pagetransformers.ZoomOutPageTransformer
@@ -44,6 +40,7 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
+    lateinit var snapsCounter: TextView
     lateinit var navView: NavigationView
     lateinit var user: User
 
@@ -51,11 +48,8 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
     private lateinit var flipperLayout: FlipperLayout
 
-    val db = Firebase.firestore
     val fAuth = FirebaseAuth.getInstance()
-    private var zeroToken = false
     private var userConnected = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,24 +75,12 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
-/*        val docRef = db.collection("users").document(fAuth.currentUser!!.uid)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val user = documentSnapshot.toObject<User>()
-
-
-
-            Log.i("Full Name", user!!.fullName)
-            Log.i("Email", user!!.email)
-            Log.i("Language Selection", user!!.languageSelection)
-            Log.i("Phone Number", user!!.phoneNumber)
-            Log.i("Tokens", "" + user!!.tokens)
-        }*/
-
-
-
+        user = (intent.getSerializableExtra("user") as? User)!!
+        snapsCounter = findViewById(R.id.top_bar_camera_amount)
+        snapsCounter.text = user.tokens.toString()
 
         mainViewModel = ViewModelProvider(this).get(UsersViewModel::class.java)
-        mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer { user ->
+        /*        mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer { user ->
 
             Log.i("USRR", user.toString())
 
@@ -108,14 +90,9 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
             } else {
                 userConnected = true
             }
+            this.user = user
 
-            if(user.tokens==0){
-                zeroToken = true
-            } else {
-                zeroToken = false
-            }
-
-            mainViewModel!!.useUserToken(fAuth.currentUser!!.uid, user.tokens!!)
+            //mainViewModel!!.useUserToken(fAuth.currentUser!!.uid, user.tokens!!)
         })
 
         mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer { user ->
@@ -124,12 +101,74 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
         })
 
+        mainViewModel!!.useUserToken(fAuth.currentUser!!.uid).observe(this, Observer { bool ->
 
+            if(bool){
+                Log.i("USRT", "Transaction success")
+            } else {
+                Log.i("USRT", "Transaction failed")
+            }
 
+        })
+        pullUserDataAndUpdate(mainViewModel!!)*/
 
         //Log.i("USR", user.toString())
+    }
 
+    override fun onResume() {
+        super.onResume()
+        loadUserData()
+        //intent.removeExtra("user")
+    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        Log.i("LOG", "onNewIntent!")
 
+        //now getIntent() should always return the last received intent
+    }
+    fun loadUserData(){
+        val serializableUser = intent.getSerializableExtra("user")
+        Log.i("User", "in loadUserData()")
+
+        if(serializableUser==null){
+            Log.i("LOG", "User null!")
+            mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer {
+                if(it.fullName.equals("Failed")){
+                    Log.i("LOG", "in failed" )
+                    Toast.makeText(this,"Failed to load your data. Please ensure you have an internet connection and try again.", Toast.LENGTH_LONG).show()
+                    user = it
+                    fAuth.signOut()
+                    finish()
+                    startActivity(Intent(this, Login::class.java))
+                    Log.i("LOG", "Signing out user, failed to load data" )
+                } else {
+                    user = it
+                    snapsCounter = findViewById(R.id.top_bar_camera_amount)
+                    snapsCounter.text = user.tokens.toString()
+                }
+            })
+        } else {
+            Log.i("LOG", "User not null!")
+            user = (serializableUser as? User)!!
+            snapsCounter = findViewById(R.id.top_bar_camera_amount)
+            snapsCounter.text = user.tokens.toString()
+        }
+    }
+
+    fun pullUserDataAndUpdate(viewModel : UsersViewModel){
+        viewModel.getUser(fAuth.currentUser!!.uid).observe(this, Observer {
+            if(user.fullName.equals("Failed")){
+                Toast.makeText(this,"Failed to load your data. Please ensure you have an internet connection and try again.", Toast.LENGTH_LONG).show()
+                userConnected = false
+            } else {
+                userConnected = true
+                this.user = it
+                //change UI elements
+                snapsCounter = findViewById(R.id.top_bar_camera_amount)
+                snapsCounter.text = user.tokens.toString()
+            }
+        })
     }
 
     private val PERMISSION_CODE = 1000
@@ -137,17 +176,18 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
     var image_uri: Uri? = Uri.EMPTY
 
     override fun onBackPressed() {
-        super.onBackPressed()
         Toast.makeText(this,"back key is pressed", Toast.LENGTH_SHORT).show()
     }
 
     fun startBooksIntent(view: View){
         val intent = Intent(this, Books::class.java)
+        intent.putExtra("user", user)
         startActivity(intent)
     }
 
     fun startWalletIntent(view: View){
         val intent = Intent(this, Wallet::class.java)
+        intent.putExtra("user", user)
         startActivity(intent)
     }
 
@@ -184,8 +224,6 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         flipperLayout.startAutoCycle(5)
         flipperLayout.addFlipperViewList(flipperViewList)
     }
-
-
 
     fun openOCRCameraActivity(view: View){
         //if system os is Marshmallow or Above, we need to request runtime permission
@@ -294,10 +332,12 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
             }
             R.id.nav_books -> {
                 val intent = Intent(this, Books::class.java)
+                intent.putExtra("user", user)
                 startActivity(intent)
             }
             R.id.nav_wallet -> {
                 val intent = Intent(this, Wallet::class.java)
+                intent.putExtra("user", user)
                 startActivity(intent)
             }
             R.id.nav_help -> {
@@ -306,6 +346,16 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
             R.id.nav_quicklinks -> {
                 Toast.makeText(this, "Quick Links clicked", Toast.LENGTH_SHORT).show()
             }
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
+            }R.id.nav_logout -> {
+                Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show()
+                fAuth.signOut()
+                finish()
+                startActivity(Intent(this, Login::class.java).apply {
+                    this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                })
+        }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

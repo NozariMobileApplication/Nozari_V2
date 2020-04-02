@@ -8,11 +8,20 @@ import android.view.View
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.nozariv2.Firebase.User
+import com.nozariv2.Firebase.UsersViewModel
 import com.nozariv2.Home
 import com.nozariv2.R
+import java.util.*
 
 class Login : AppCompatActivity() {
+
+    lateinit var fAuth : FirebaseAuth
+    lateinit var user : User
+    var mainViewModel: UsersViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +46,8 @@ class Login : AppCompatActivity() {
 
         val progressBar: ProgressBar = findViewById(R.id.progressBarLogin)
 
-        val fAuth = FirebaseAuth.getInstance()
+        fAuth = FirebaseAuth.getInstance()
+        mainViewModel = ViewModelProvider(this).get(UsersViewModel::class.java)
 
         fAuth.signOut()
 
@@ -70,11 +80,22 @@ class Login : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        progressBar.visibility = View.GONE
+                        //progressBar.visibility = View.GONE
                         Log.d("Success", "signInWithEmail:success")
-                        val user = fAuth.currentUser
 
-                        startActivity(Intent(this@Login, Home::class.java))
+                        pullUserData(mainViewModel!!)
+
+/*                        if(pullUserData(mainViewModel!!).fullName.equals("Failed")){
+                            Log.i("LOG", "Signing out user, failed to load data" )
+                            fAuth.signOut()
+                        } else {
+                            Log.i("LOG", "Starting activity, load success" )
+                            startActivity(Intent(this@Login, Home::class.java))
+                                //add the user as an extra, do the same for register9
+                        }*/
+
+
+                        //startActivity(Intent(this@Login, Home::class.java))
                     } else {
                         // If sign in fails, display a message to the user.
                         progressBar.visibility = View.INVISIBLE
@@ -83,12 +104,43 @@ class Login : AppCompatActivity() {
                         Toast.makeText(baseContext, "Login Failed : " + task.exception?.message,
                             Toast.LENGTH_LONG).show()
                     }
-
                 }
-
+                .addOnFailureListener(this){
+                    Toast.makeText(baseContext, "Login Failed : " + it.message,
+                        Toast.LENGTH_LONG).show()
+                }
         }
-
     }
+
+    fun pullUserData(viewModel : UsersViewModel){
+        val progressBar: ProgressBar = findViewById(R.id.progressBarLogin)
+        Log.i("LOG", "in Pull User Data" )
+        viewModel.getUser(fAuth.currentUser!!.uid).observe(this, Observer {
+            if(it.fullName.equals("Failed")){
+                Log.i("LOG", "in failed" )
+                Toast.makeText(this,"Failed to load your data. Please ensure you have an internet connection and try again.", Toast.LENGTH_LONG).show()
+                user = it
+                Log.i("LOG", "Signing out user, failed to load data" )
+                fAuth.signOut()
+                progressBar.visibility = View.GONE
+            } else {
+                Log.i("LOG", "in success" )
+                user = it
+                Log.i("LOG", "Starting activity, load success" )
+                startActivity(Intent(this@Login, Home::class.java).apply {
+                    this.putExtra("user", user)
+                })
+                finish()
+                progressBar.visibility = View.GONE
+                //change UI elements
+            }
+        })
+    }
+
+    override fun onBackPressed() {
+        //doNothing here. Want to force user to go through login process before getting to Home again.
+    }
+
 
 
 }

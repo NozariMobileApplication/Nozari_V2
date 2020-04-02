@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -27,10 +28,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.nozariv2.Firebase.User
+import com.nozariv2.Firebase.UsersViewModel
 import com.nozariv2.Home
 import com.nozariv2.OCRTranslationSplash
 import com.nozariv2.R
 import com.nozariv2.Wallet
+import com.nozariv2.authentication.Login
 import com.nozariv2.database.adapters.BookListAdapter
 import com.nozariv2.database.tables.Book
 import com.nozariv2.database.viewModels.BookViewModel
@@ -46,7 +51,14 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
 
     private lateinit var bookViewModel: BookViewModel
     private val newBookActivityRequestCode = 1
+    val fAuth = FirebaseAuth.getInstance()
 
+
+    lateinit var user: User
+    var mainViewModel: UsersViewModel? = null
+
+
+    lateinit var snapsCounter: TextView
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
@@ -73,12 +85,16 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+        mainViewModel = ViewModelProvider(this).get(UsersViewModel::class.java)
+        loadUserData()
 
         val fab = findViewById<FloatingActionButton>(R.id.book_newbook_fab)
         fab.setOnClickListener {
             val intent = Intent(this, NewBook::class.java)
             startActivityForResult(intent, newBookActivityRequestCode)
         }
+
+
 
         val recyclerView = findViewById<RecyclerView>(R.id.book_recyclerview)
         val adapter = BookListAdapter(this)
@@ -92,10 +108,64 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         })
 
         binding.booksContent.booksSearchbar.addTextChangedListener { text -> bookViewModel.searchNameChanged(text.toString()) }
+    }
 
+    override fun onBackPressed() {
+        val intent = Intent(this, Home::class.java)
+        intent.putExtra("user", user)
+        Log.i("onBack", user.tokens.toString())
+        startActivity(intent)
+    }
 
+    fun loadUserData(){
+        val serializableUser = intent.getSerializableExtra("user")
+        if(serializableUser==null){
+            Log.i("LOG", "User null!")
+            mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer {
+                if(it.fullName.equals("Failed")){
+                    Log.i("LOG", "in failed" )
+                    Toast.makeText(this,"Failed to load your data. Please ensure you have an internet connection and try again.", Toast.LENGTH_LONG).show()
+                    user = it
+                    fAuth.signOut()
+                    finish()
+                    startActivity(Intent(this, Login::class.java))
+                    Log.i("LOG", "Signing out user, failed to load data" )
+                } else {
+                    user = it
+                    snapsCounter = findViewById(R.id.top_bar_camera_amount)
+                    snapsCounter.text = user.tokens.toString()
+                }
+            })
+        } else {
+            Log.i("LOG", "User not null!")
+            user = (serializableUser as? User)!!
+            snapsCounter = findViewById(R.id.top_bar_camera_amount)
+            snapsCounter.text = user.tokens.toString()
+        }
 
-
+/*        user = (intent.getSerializableExtra("user") as? User)!!
+        if(user!=null){
+            Log.i("LOG", "User not null!")
+            snapsCounter = findViewById(R.id.top_bar_camera_amount)
+            snapsCounter.text = user.tokens.toString()
+        } else {
+            Log.i("LOG", "User null!")
+            mainViewModel!!.getUser(fAuth.currentUser!!.uid).observe(this, Observer {
+                if(it.fullName.equals("Failed")){
+                    Log.i("LOG", "in failed" )
+                    Toast.makeText(this,"Failed to load your data. Please ensure you have an internet connection and try again.", Toast.LENGTH_LONG).show()
+                    user = it
+                    fAuth.signOut()
+                    finish()
+                    startActivity(Intent(this, Login::class.java))
+                    Log.i("LOG", "Signing out user, failed to load data" )
+                } else {
+                    user = it
+                    snapsCounter = findViewById(R.id.top_bar_camera_amount)
+                    snapsCounter.text = user.tokens.toString()
+                }
+            })
+        }*/
     }
 
     fun startImagePicker(view: View){
@@ -139,10 +209,9 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
 
     fun startWalletIntent(view: View){
         val intent = Intent(this, Wallet::class.java)
+        intent.putExtra("user", user)
         startActivity(intent)
     }
-
-
 
 //    Creating a new book
     @RequiresApi(Build.VERSION_CODES.O)
@@ -180,6 +249,7 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         when (item.itemId) {
             R.id.nav_home -> {
                 val intent = Intent(this, Home::class.java)
+                intent.putExtra("user", user)
                 startActivity(intent)
             }
             R.id.nav_books -> {
@@ -187,6 +257,7 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             }
             R.id.nav_wallet -> {
                 val intent = Intent(this, Wallet::class.java)
+                intent.putExtra("user", user)
                 //fake push
                 startActivity(intent)
             }
@@ -196,6 +267,16 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             R.id.nav_quicklinks -> {
                 Toast.makeText(this, "Quick Links clicked", Toast.LENGTH_SHORT).show()
             }
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
+            }R.id.nav_logout -> {
+                Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show()
+                fAuth.signOut()
+                finish()
+                startActivity(Intent(this, Login::class.java).apply {
+                    this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                })
+        }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

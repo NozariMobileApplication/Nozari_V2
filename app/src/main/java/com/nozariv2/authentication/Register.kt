@@ -8,17 +8,28 @@ import android.view.View
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.nozariv2.Firebase.User
+import com.nozariv2.Firebase.UsersViewModel
 import com.nozariv2.Home
 import com.nozariv2.R
 
 class Register : AppCompatActivity() {
 
+    var mainViewModel: UsersViewModel? = null
+
+    lateinit var user : User
+    lateinit var fAuth : FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        mainViewModel = ViewModelProvider(this).get(UsersViewModel::class.java)
 
         //Populate spinner with languages
 
@@ -42,7 +53,7 @@ class Register : AppCompatActivity() {
         val buttonRegister: Button =  findViewById(R.id.buttonRegister)
         val progressBarRegister: ProgressBar = findViewById(R.id.progressBarRegister)
 
-        val fAuth : FirebaseAuth = FirebaseAuth.getInstance()
+        fAuth = FirebaseAuth.getInstance()
         val fStore : FirebaseFirestore = FirebaseFirestore.getInstance()
 
         if(fAuth.currentUser != null){
@@ -83,28 +94,22 @@ class Register : AppCompatActivity() {
                         Log.d("Success", "createUserWithEmail:success")
                         val user = fAuth.currentUser
 
-                        val documentReference: DocumentReference = fStore.collection("users").document(user!!.uid)
-                        val userData: HashMap<String, Any> = HashMap()
-                        userData.put("fullName", fullName)
-                        userData.put("email", email)
-                        userData.put("phoneNumber", phoneNumber)
-                        userData.put("languageSelection", languageSelection)
-                    userData.put("tokens", 0)
-                        documentReference.set(userData)
-                            .addOnSuccessListener(this) {
-
-                                Log.i("Success", "User " + user.uid + " data written successfully")
-
+                        mainViewModel!!.writeNewUserData(user!!.uid, fullName, email, phoneNumber, languageSelection).observe(this, Observer { isSuccessful ->
+                            if(isSuccessful){
+                                Toast.makeText(baseContext, "Registration Successful!", Toast.LENGTH_SHORT).show()
+                                pullUserData(mainViewModel!!)
+                            } else {
+                                //The user was created in Firebase Auth, but the user details were not recorded.
+                                //We need to delete their account and display a message to the user.
+                                user.delete().addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(baseContext, "Registration failed. Please try again later or contact support.", Toast.LENGTH_LONG).show()
+                                        progressBarRegister.visibility = View.GONE
+                                        it.isClickable = true
+                                    }
+                                }
                             }
-                            .addOnFailureListener(this) {
-
-                                Log.i("Error", "User data not written " +  task.exception!!.message)
-
-                            }
-
-                        Toast.makeText(baseContext, "Registration Successful!",
-                            Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@Register, Home::class.java))
+                        })
                     } else {
                         // If sign in fails, display a message to the user.
                         progressBarRegister.visibility = View.GONE
@@ -113,12 +118,35 @@ class Register : AppCompatActivity() {
                         Toast.makeText(baseContext, "Registration Failed : " + task.exception?.message,
                             Toast.LENGTH_LONG).show()
                     }
-
-                    // ...
                 }
-
         }
+    }
 
+    fun pullUserData(viewModel : UsersViewModel){
+        val progressBar: ProgressBar = findViewById(R.id.progressBarRegister)
+        Log.i("LOG", "in Pull User Data" )
+        viewModel.getUser(fAuth.currentUser!!.uid).observe(this, Observer {
+            if(it.fullName.equals("Failed")){
+                Log.i("LOG", "in failed" )
+                Toast.makeText(this,"Failed to load your data. Please ensure you have an internet connection and try again.", Toast.LENGTH_LONG).show()
+                user = it
+                Log.i("LOG", "Signing out user, failed to load data" )
+                fAuth.signOut()
+                startActivity(Intent(this@Register, Login::class.java))
+                finish()
+                progressBar.visibility = View.GONE
+            } else {
+                Log.i("LOG", "in success" )
+                user = it
+                Log.i("LOG", "Starting activity, load success" )
+                startActivity(Intent(this@Register, Home::class.java).apply {
+                    this.putExtra("user", user)
+                })
+                finish()
+                progressBar.visibility = View.GONE
+                //change UI elements
+            }
+        })
     }
 
 

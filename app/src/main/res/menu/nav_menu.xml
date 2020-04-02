@@ -24,4 +24,14 @@
                 android:title="Quick Links"/>
         </menu>
     </item>
+
+    <group>
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Profile"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout"/>
+    </group>
+
 </menu>

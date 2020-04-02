@@ -14,11 +14,12 @@ class UsersViewModel : ViewModel() {
         return repository.getUserData(uuid)
     }
 
-    fun useUserToken(uuid : String, currentTokens : Int){
-
-        repository.useUserToken(uuid, currentTokens)
-
+    fun useUserToken(uuid : String) : MutableLiveData<Boolean>{
+        return repository.useUserToken(uuid)
     }
 
+    fun writeNewUserData(uuid: String, fullName: String, email: String, phoneNumber: String, languageSelection: String) : MutableLiveData<Boolean>{
+        return repository.writeNewUserData(uuid, fullName, email, phoneNumber, languageSelection)
+    }
 
-}
+    }

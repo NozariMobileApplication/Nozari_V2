@@ -90,10 +90,15 @@ class SelectBook : AppCompatActivity() {
                 var book = Book(0, userId, (createDate).toString(), bookName,uri)
                 bookViewModel.insert(book)
                 Toast.makeText(applicationContext,R.string.book_created_string,Toast.LENGTH_LONG).show()
+                /*startActivity(Intent(this, Books::class.java))
+                finish()*/
             }
 
         }
         else{Toast.makeText(applicationContext,R.string.new_book_error_string,Toast.LENGTH_LONG).show()}
+
+        //finish()
+
     }
 }
 

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -14,14 +15,22 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.nozariv2.Firebase.User
+import com.nozariv2.authentication.Login
 import com.nozariv2.books.Books
 import java.io.File
 
 class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var snapsCounter: TextView
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
+
+    lateinit var user: User
+
+    val fAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +39,11 @@ class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
         toolbar = findViewById(R.id.toolbar)
         //setSupportActionBar(toolbar)
 
+        user = (intent.getSerializableExtra("user") as? User)!!
+        snapsCounter = findViewById(R.id.top_bar_camera_amount)
+        snapsCounter.text = user.tokens.toString()
         drawerLayout = findViewById(R.id.drawer_layout)
+
         navView = findViewById(R.id.nav_view)
 
         val toggle = ActionBarDrawerToggle(
@@ -41,8 +54,15 @@ class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
         navView.setNavigationItemSelectedListener(this)
     }
 
+    override fun onBackPressed() {
+        val intent = Intent(this, Home::class.java)
+        intent.putExtra("user", user)
+        startActivity(intent)
+    }
+
     fun startBooksIntent(view: View){
         val intent = Intent(this, Books::class.java)
+        intent.putExtra("user", user)
         startActivity(intent)
     }
 
@@ -89,10 +109,12 @@ class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
         when (item.itemId) {
             R.id.nav_home -> {
                 val intent = Intent(this, Home::class.java)
+                intent.putExtra("user", user)
                 startActivity(intent)
             }
             R.id.nav_books -> {
                 val intent = Intent(this, Books::class.java)
+                intent.putExtra("user", user)
                 startActivity(intent)
             }
             R.id.nav_wallet -> {
@@ -103,6 +125,17 @@ class Wallet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
             }
             R.id.nav_quicklinks -> {
                 Toast.makeText(this, "Quick Links clicked", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_logout -> {
+                Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show()
+                fAuth.signOut()
+                finish()
+                startActivity(Intent(this, Login::class.java).apply {
+                    this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                })
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

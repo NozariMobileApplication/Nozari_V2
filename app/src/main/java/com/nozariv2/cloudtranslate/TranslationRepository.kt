@@ -48,6 +48,7 @@ class TranslationRepository {
                     Log.i("HttpException!", e.message())
 
                 } catch (e: Throwable) {
+                    Log.i("ERR", "Translation Throwable!")
                     Log.i("Throwable!", e.message)
                 }
             }
