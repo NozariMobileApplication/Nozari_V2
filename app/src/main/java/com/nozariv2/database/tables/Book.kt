@@ -11,7 +11,6 @@ class Book (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "book_id")
     val bookId: Int,
-//    val id: String = UUID.randomUUID().toString(),
 
     @ColumnInfo(name = "userid")
     val userId: String,

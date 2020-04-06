@@ -25,6 +25,14 @@ interface BookDoa{
     fun filterBooks(bookName:String): LiveData<List<Book>>
 
     /**
+     * Get book id.
+     * @return book id for book matching search parameters
+     * @param bookname the name of the book for which the id is to be returned
+     */
+    @Query("SELECT book_id from books_table WHERE name LIKE :bookName")
+    fun getID(bookName:String): Int
+
+    /**
      * Insert a book into the database. If the book already exists, replace it.
      * @param book the book to be inserted.
      */

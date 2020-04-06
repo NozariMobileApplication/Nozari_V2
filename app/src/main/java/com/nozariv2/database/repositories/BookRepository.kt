@@ -13,6 +13,10 @@ class BookRepository(private  val bookDoa: BookDoa) {
         bookDoa.insertBook(book)
     }
 
+    fun getID(bookName:String):Int{
+        return bookDoa.getID(bookName)
+    }
+
     fun searchBooks(string:String):LiveData<List<Book>> {
         if (string.isEmpty()) return  bookDoa.getAlphabetizedBooks()
         return bookDoa.filterBooks("%$string%")

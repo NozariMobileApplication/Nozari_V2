@@ -47,5 +47,9 @@ class BookViewModel (application: Application) : AndroidViewModel(application){
         _searchStringLiveData.value=name
     }
 
+    fun getId(bookname:String):Int{
+        return repository.getID(bookname)
+    }
+
 
 }
