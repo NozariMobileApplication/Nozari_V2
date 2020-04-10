@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter
 class SelectBook : AppCompatActivity() {
 
     private lateinit var binding: ActivitySelectbookBinding
+    private lateinit var imageURI: String
 
     private lateinit var bookViewModel: BookViewModel
     private val newBookActivityRequestCode = 1
@@ -40,7 +41,7 @@ class SelectBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= DataBindingUtil.setContentView(this,R.layout.activity_selectbook)
 
-        val imageURI = intent.getStringExtra("IMAGE_PATH")
+        imageURI = intent.getStringExtra("IMAGE_PATH")
 
         val recyclerView = findViewById<RecyclerView>(R.id.selectbook_recyclerview)
         val adapter = SelectBookListAdapter(this, imageURI)
@@ -96,7 +97,7 @@ class SelectBook : AppCompatActivity() {
                 Toast.makeText(applicationContext,R.string.book_created_string,Toast.LENGTH_LONG).show()
 //                Toast.makeText(applicationContext,bookViewModel.getId(bookName).toString(),Toast.LENGTH_LONG).show()
 
-                val page= Page(0,bookViewModel.getId(bookName), LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),uri,0)
+                val page= Page(0,bookViewModel.getId(bookName), LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageURI,0)
                 val pagesDoa = PageRoomDatabase.getDatabase(this).pageDoa()
                 pagesDoa.insertPage(page)
                 (this as Activity).finish()

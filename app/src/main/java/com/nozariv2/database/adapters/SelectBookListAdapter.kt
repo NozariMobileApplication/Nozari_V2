@@ -60,6 +60,7 @@ class SelectBookListAdapter constructor(context: Context, imageUri:String) : Rec
             holder.bookIcon.setImageBitmap(resized)
         }
 
+        // animation
         holder.itemView.setOnTouchListener { v, event ->
             when (event.action){
                 MotionEvent.ACTION_DOWN -> {
@@ -75,6 +76,7 @@ class SelectBookListAdapter constructor(context: Context, imageUri:String) : Rec
             false
         }
 
+        // Insert book
         holder.itemView.setOnClickListener(){
             val page=Page(0,current.bookId, LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageUri,0)
             val pagesDoa = PageRoomDatabase.getDatabase(holder.itemView.context).pageDoa()
