@@ -8,6 +8,7 @@ import com.nozariv2.database.tables.Book
 class BookRepository(private  val bookDoa: BookDoa) {
 
     val allBooks: LiveData<List<Book>> = bookDoa.getAlphabetizedBooks()
+    val recentBooks: LiveData<List<Book>> = bookDoa.getRecentBooks()
 
     suspend fun insert(book: Book){
         bookDoa.insertBook(book)

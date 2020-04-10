@@ -24,6 +24,8 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -31,12 +33,17 @@ import com.nozariv2.Firebase.User
 import com.nozariv2.Firebase.UsersViewModel
 import com.nozariv2.authentication.Login
 import com.nozariv2.books.Books
+import com.nozariv2.database.adapters.BookListAdapter
+import com.nozariv2.database.adapters.HomePageBookListAdapter
+import com.nozariv2.database.viewModels.BookViewModel
 import technolifestyle.com.imageslider.FlipperLayout
 import technolifestyle.com.imageslider.FlipperView
 import technolifestyle.com.imageslider.pagetransformers.ZoomOutPageTransformer
 import java.io.File
 
 class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var bookViewModel: BookViewModel
 
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
@@ -113,6 +120,19 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         pullUserDataAndUpdate(mainViewModel!!)*/
 
         //Log.i("USR", user.toString())
+
+        // Recycler view for recently views books
+        val recyclerView = findViewById<RecyclerView>(R.id.homepage_recyclerview)
+        val adapter = HomePageBookListAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager= GridLayoutManager(this,3)
+
+        bookViewModel = ViewModelProvider(this).get(BookViewModel::class.java)
+        bookViewModel.recentBooks.observe(this, Observer { books ->
+            // Update the cached copy of the words in the adapter.
+            books?.let { adapter.setBooks(it) }
+        })
+
     }
 
     override fun onResume() {

@@ -51,6 +51,8 @@ class NewBook : AppCompatActivity() {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
                 Toast.makeText(applicationContext, "Please enter book name", Toast.LENGTH_SHORT).show()
             }
+            // If cover page is required
+            // else if (uri.equals("")) Toast.makeText(applicationContext, "Please set cover image", Toast.LENGTH_SHORT).show()
             else {
                 val bookName = editWordView.text.toString()
                 //val currentDate = "Test Date"

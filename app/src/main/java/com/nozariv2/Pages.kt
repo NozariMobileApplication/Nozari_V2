@@ -19,8 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.nozariv2.database.adapters.PageListAdapter
+import com.nozariv2.database.roomdatabase.BookRoomDatabase
 import com.nozariv2.database.viewModels.PageViewModel
 import org.jetbrains.anko.doAsync
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class Pages : AppCompatActivity() {
@@ -55,6 +58,10 @@ class Pages : AppCompatActivity() {
         })
 
         pageViewModel.filter(bookId)
+
+        // Update book access date
+        val booksDoa = BookRoomDatabase.getDatabase(this).bookDoa()
+        booksDoa.updateAccessDate(bookId,SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()).toString() )
 
 //        while (adapter.set==false) // Wait for list to be gathered
         if (adapter.pages.isNotEmpty()) mainImageView.setImageURI(Uri.parse(adapter.pages[0].uri))

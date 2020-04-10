@@ -224,7 +224,9 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
             var userId: String=""
             //var createDate = "Test Date"
 //            var createDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
-            var createDate = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString()
+            var createDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()).toString()
+            Toast.makeText(applicationContext,createDate, Toast.LENGTH_LONG).show()
+
 
             var bookName: String=""
             var uri:String=""
@@ -236,9 +238,13 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
                 userId = it
             }
 
+            data?.getStringExtra(NewBook.URI_REPLY)?.let {
+                uri = it
+            }
+
             if (!userId.equals("")&&!bookName.equals(""))
             {
-                var book = Book(0, userId, (createDate).toString(), bookName,uri)
+                var book = Book(0, userId, (createDate),(createDate), bookName,uri)
                 bookViewModel.insert(book)
                 Toast.makeText(applicationContext,R.string.book_created_string, Toast.LENGTH_LONG).show()
             }

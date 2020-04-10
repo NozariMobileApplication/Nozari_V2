@@ -18,10 +18,17 @@ interface BookDoa{
     fun getAlphabetizedBooks(): LiveData<List<Book>>
 
     /**
+     * Get list of 3 books ordered by insert date.
+     * @return list of 3 books from the table in ascending order by insert date.
+     */
+    @Query("SELECT * from books_table ORDER BY strftime('%s', access_date) DESC LIMIT 3")
+    fun getRecentBooks(): LiveData<List<Book>>
+
+    /**
      * Get list of books.
      * @return list of books for specified name from the table in ascending order by name
      */
-    @Query("SELECT * from books_table WHERE LOWER(name) LIKE +LOWER(:bookName)  ORDER BY name ASC")
+    @Query("SELECT * from books_table WHERE LOWER(name) LIKE +LOWER(:bookName)  ORDER BY name DESC")
     fun filterBooks(bookName:String): LiveData<List<Book>>
 
     /**
@@ -31,6 +38,13 @@ interface BookDoa{
      */
     @Query("SELECT book_id from books_table WHERE name LIKE :bookName")
     fun getID(bookName:String): Int
+
+    /**
+     * Update access date.
+     * @param date the date the book was last accessed
+     */
+    @Query("UPDATE books_table SET access_date = :newAccessDate where book_id = :bookID")
+    fun updateAccessDate(bookID:Int,newAccessDate:String): Int
 
     /**
      * Insert a book into the database. If the book already exists, replace it.

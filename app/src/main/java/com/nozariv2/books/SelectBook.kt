@@ -77,8 +77,8 @@ class SelectBook : AppCompatActivity() {
             var userId: String="test"
             //val date = "Test Date"
 //            var date = LocalDate.parse(LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString(), DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-            var date= SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString()
-            var createDate = java.sql.Date.valueOf(date.toString());
+//            var date= SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString()
+            var createDate = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString()
             var bookName: String=""
             var uri:String=""
 
@@ -95,7 +95,7 @@ class SelectBook : AppCompatActivity() {
 
             if (!userId.equals("")&&!bookName.equals(""))
             {
-                var book = Book(0, userId, (createDate).toString(), bookName,uri)
+                var book = Book(0, userId, (createDate), (createDate), bookName,uri)
                 bookViewModel.insert(book)
                 Toast.makeText(applicationContext,R.string.book_created_string,Toast.LENGTH_LONG).show()
 //                Toast.makeText(applicationContext,bookViewModel.getId(bookName).toString(),Toast.LENGTH_LONG).show()

@@ -184,8 +184,8 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homepage_recyclerview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -193,7 +193,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flipper_layout"
-        app:srcCompat="@drawable/home_recently_viewed_image" />
+        tools:listitem="@layout/recyclerview_book_item" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

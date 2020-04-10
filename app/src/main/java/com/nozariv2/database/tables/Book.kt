@@ -18,6 +18,9 @@ class Book (
     @ColumnInfo(name = "create_date")
     val createDate: String,
 
+    @ColumnInfo(name = "access_date")
+    val accessDate: String,
+
     @ColumnInfo(name = "name")
     val bookName: String,
 
