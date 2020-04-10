@@ -21,8 +21,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.nozariv2.OCRTranslationSplash
 import com.nozariv2.R
 import java.io.File
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class NewBook : AppCompatActivity() {
@@ -52,7 +54,9 @@ class NewBook : AppCompatActivity() {
             else {
                 val bookName = editWordView.text.toString()
                 //val currentDate = "Test Date"
-                val currentDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
+//                val currentDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
+                val currentDate = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString()
+
                 val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
                 currentFirebaseUser?.let {
                     var uid = currentFirebaseUser.uid

@@ -27,8 +27,10 @@ import com.nozariv2.database.roomdatabase.PageRoomDatabase
 import com.nozariv2.database.tables.Book
 import com.nozariv2.database.tables.Page
 import org.jetbrains.anko.doAsync
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class SelectBookListAdapter constructor(context: Context, imageUri:String) : RecyclerView.Adapter<SelectBookListAdapter.BookViewHolder>(){
 
@@ -78,7 +80,8 @@ class SelectBookListAdapter constructor(context: Context, imageUri:String) : Rec
 
         // Insert book
         holder.itemView.setOnClickListener(){
-            val page=Page(0,current.bookId, LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageUri,0)
+//            val page=Page(0,current.bookId, LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageUri,0)
+            val page=Page(0,current.bookId, SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString(),imageUri,0)
             val pagesDoa = PageRoomDatabase.getDatabase(holder.itemView.context).pageDoa()
             pagesDoa.insertPage(page)
             (context as Activity).finish()

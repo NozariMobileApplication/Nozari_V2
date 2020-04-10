@@ -25,9 +25,11 @@ import com.nozariv2.database.tables.Book
 import com.nozariv2.database.tables.Page
 import com.nozariv2.database.viewModels.BookViewModel
 import com.nozariv2.databinding.ActivitySelectbookBinding
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class SelectBook : AppCompatActivity() {
 
@@ -74,7 +76,8 @@ class SelectBook : AppCompatActivity() {
             var id: String
             var userId: String="test"
             //val date = "Test Date"
-            var date = LocalDate.parse(LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString(), DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+//            var date = LocalDate.parse(LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString(), DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+            var date= SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString()
             var createDate = java.sql.Date.valueOf(date.toString());
             var bookName: String=""
             var uri:String=""
@@ -97,7 +100,8 @@ class SelectBook : AppCompatActivity() {
                 Toast.makeText(applicationContext,R.string.book_created_string,Toast.LENGTH_LONG).show()
 //                Toast.makeText(applicationContext,bookViewModel.getId(bookName).toString(),Toast.LENGTH_LONG).show()
 
-                val page= Page(0,bookViewModel.getId(bookName), LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageURI,0)
+//                val page= Page(0,bookViewModel.getId(bookName), LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")),imageURI,0)
+                val page= Page(0,bookViewModel.getId(bookName), SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString(),imageURI,0)
                 val pagesDoa = PageRoomDatabase.getDatabase(this).pageDoa()
                 pagesDoa.insertPage(page)
                 (this as Activity).finish()

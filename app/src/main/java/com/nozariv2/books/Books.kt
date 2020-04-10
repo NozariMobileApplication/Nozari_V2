@@ -42,8 +42,10 @@ import com.nozariv2.database.viewModels.BookViewModel
 import com.nozariv2.databinding.ActivityBooksBinding
 import com.nozariv2.databinding.ActivitySelectbookBinding
 import java.io.File
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -221,7 +223,9 @@ class Books : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListen
         if (requestCode == newBookActivityRequestCode && resultCode == Activity.RESULT_OK) {
             var userId: String=""
             //var createDate = "Test Date"
-            var createDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
+//            var createDate = LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
+            var createDate = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()).toString()
+
             var bookName: String=""
             var uri:String=""
 
