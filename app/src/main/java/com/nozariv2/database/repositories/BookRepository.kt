@@ -9,6 +9,7 @@ class BookRepository(private  val bookDoa: BookDoa) {
 
     val allBooks: LiveData<List<Book>> = bookDoa.getAlphabetizedBooks()
     val recentBooks: LiveData<List<Book>> = bookDoa.getRecentBooks()
+    val numberOfBooks: LiveData<Int> = bookDoa.getNumberOfBooks()
 
     suspend fun insert(book: Book){
         bookDoa.insertBook(book)

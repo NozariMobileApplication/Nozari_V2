@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -35,6 +36,7 @@ import com.nozariv2.authentication.Login
 import com.nozariv2.books.Books
 import com.nozariv2.database.adapters.BookListAdapter
 import com.nozariv2.database.adapters.HomePageBookListAdapter
+import com.nozariv2.database.roomdatabase.PageRoomDatabase
 import com.nozariv2.database.viewModels.BookViewModel
 import technolifestyle.com.imageslider.FlipperLayout
 import technolifestyle.com.imageslider.FlipperView
@@ -44,6 +46,8 @@ import java.io.File
 class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var bookViewModel: BookViewModel
+    private lateinit var numberOfBooksView : TextView
+    private lateinit var numberOfPagesView : TextView
 
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
@@ -121,6 +125,9 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
         //Log.i("USR", user.toString())
 
+        numberOfBooksView = findViewById(R.id.number_of_books_homepage)
+        numberOfPagesView = findViewById(R.id.number_of_pages_homepage)
+
         // Recycler view for recently views books
         val recyclerView = findViewById<RecyclerView>(R.id.homepage_recyclerview)
         val adapter = HomePageBookListAdapter(this)
@@ -131,6 +138,21 @@ class Home : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         bookViewModel.recentBooks.observe(this, Observer { books ->
             // Update the cached copy of the words in the adapter.
             books?.let { adapter.setBooks(it) }
+        })
+        var numberOfBooksText=0;
+        // Automatically keep track of the number of books
+        bookViewModel.numberOfBooks.observe(this, Observer { numberOfBooks ->
+            numberOfBooks?.let { numberOfBooksText = bookViewModel.numberOfBooks.value?.toInt() ?:0  }
+            numberOfBooksView.text = getString(R.string.number_of_books_string) + numberOfBooks.toString()
+        })
+
+        // Automatically keep track of number of pages
+        var numberOfPagesText=0;
+        val pagesDoa = PageRoomDatabase.getDatabase(this).pageDoa()
+        val numberOfPagesData:LiveData<Int> =  pagesDoa.getNumberOfPages()
+        numberOfPagesData.observe(this, Observer { numberOfPages->
+            numberOfPages?.let { numberOfPagesText= numberOfPages}
+            numberOfPagesView.text = getString(R.string.number_of_pages_string) + numberOfPages.toString()
         })
 
     }

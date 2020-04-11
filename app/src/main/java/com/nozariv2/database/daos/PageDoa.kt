@@ -25,6 +25,13 @@ interface PageDoa{
     fun filterPages(bookId:Int): List<Page>
 
     /**
+     * Get number of pages.
+     * @return number of pages in page database
+     */
+    @Query("SELECT COUNT(*) from pages_table ")
+    fun getNumberOfPages(): LiveData<Int>
+
+    /**
      * Insert a page into the database. If the page already exists, replace it.
      * @param page the page to be inserted.
      */

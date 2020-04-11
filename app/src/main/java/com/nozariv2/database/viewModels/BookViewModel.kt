@@ -28,6 +28,7 @@ class BookViewModel (application: Application) : AndroidViewModel(application){
     // LiveData gives us updated books when they change.
     val allbooks: LiveData<List<Book>>
     val recentBooks: LiveData<List<Book>>
+    val numberOfBooks: LiveData<Int>
 
     init{
 
@@ -40,6 +41,9 @@ class BookViewModel (application: Application) : AndroidViewModel(application){
 
         //Recently Accessed Books
         recentBooks = repository.recentBooks
+
+        // Number of books
+        numberOfBooks = repository.numberOfBooks
 
     }
 

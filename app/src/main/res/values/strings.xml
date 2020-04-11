@@ -54,6 +54,8 @@
     <!--   Home   -->
 
     <string name="take_picture">Take picture</string>
+    <string name="number_of_books_string">Total Books : </string>
+    <string name="number_of_pages_string">Total Pages : </string>
 
     <!--   Books/Pages   -->
 

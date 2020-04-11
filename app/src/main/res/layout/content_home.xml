@@ -195,5 +195,23 @@
         app:layout_constraintTop_toBottomOf="@+id/flipper_layout"
         tools:listitem="@layout/recyclerview_book_item" />
 
+    <TextView
+        android:id="@+id/number_of_books_homepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        />
+
+    <TextView
+        android:id="@+id/number_of_pages_homepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

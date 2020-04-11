@@ -40,6 +40,13 @@ interface BookDoa{
     fun getID(bookName:String): Int
 
     /**
+     * Get number of books.
+     * @return number of books in books database
+     */
+    @Query("SELECT COUNT(*) from books_table ")
+    fun getNumberOfBooks(): LiveData<Int>
+
+    /**
      * Update access date.
      * @param date the date the book was last accessed
      */
